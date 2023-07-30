@@ -43,9 +43,12 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity registerUser(@RequestBody @Valid DataNewUser dataNewUser){
+    public ResponseEntity<String> registerUser(@RequestBody @Valid DataNewUser dataNewUser){
+
+        String message = "User Registration Successful!. Please Login.";
+
         userService.registerUser(dataNewUser);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(message);
     }
 }

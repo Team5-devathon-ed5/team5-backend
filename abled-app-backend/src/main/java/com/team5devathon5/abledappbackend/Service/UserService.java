@@ -30,7 +30,7 @@ public class UserService implements UserDetailsService {
         String userHashedPassword = passwordBCrypt.encode(dataNewUser.password());
 
 
-        User newUser =  new User(null, dataNewUser.name(),userHashedPassword,dataNewUser.name()
+        User newUser =  new User(null, dataNewUser.username(),userHashedPassword,dataNewUser.name()
                                 ,dataNewUser.surname(), dataNewUser.email());
 
          userRepository.save(newUser);

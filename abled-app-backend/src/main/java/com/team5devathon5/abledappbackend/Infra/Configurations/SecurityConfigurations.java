@@ -1,4 +1,4 @@
-package com.team5devathon5.abledappbackend.Configurations;
+package com.team5devathon5.abledappbackend.Infra.Configurations;
 
 import com.team5devathon5.abledappbackend.Filter.SecurityFilter;
 import org.springframework.context.annotation.Bean;
