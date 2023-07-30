@@ -1,31 +1,9 @@
-from datetime import date
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
-from pydantic import BaseModel, validator, confloat
 
-class Location(BaseModel):
-    latitude: confloat(ge=-90.00, le=90.00)
-    longitude: confloat(ge=-180.00, le=180.00)
-
-class Search(BaseModel):
-    location: Location
-    check_in: date
-    check_out: date
-    num_travellers: int
-
-    @validator("check_out")
-    def check_dates(cls, value, values):
-        if "check_in" in values and value < values["check_in"]:
-            raise ValueError("Check-out date cannot be before check-in date.")
-        return value
-
-    @validator("num_travellers")
-    def check_num_travellers(cls, value):
-        if value < 1:
-            raise ValueError("Number of travellers cannot be less than 1.")
-        return value    
-
+from app.models import Search
+from sql_app.database import SessionLocal, text
 
 app = FastAPI()
 app.add_middleware(
@@ -39,5 +17,17 @@ app.add_middleware(
 def search_accommodation(request: Request, search : Search):
     """
     """
-    print(search)
+    try:
+        db = SessionLocal()
+        query = text("""SELECT id, ST_Distance(POINT(longitude, latitude), POINT(:longitude_ref, :latitude_ref)) AS ratio FROM lodging 
+                     WHERE ST_Distance(POINT(longitude, latitude), POINT(:longitude_ref, :latitude_ref)) <= :max_ratio
+                     ORDER BY ratio""")
+        result = db.execute(query, {'longitude_ref':search.location.longitude,'latitude_ref':search.location.latitude, 'max_ratio':25}).fetchall()
+
+    except Exception as e:
+        raise Exception("Error, we can't connect with database.", str(e))
+
+    finally:
+        db.close()
+
     return {'message':'Hello world'}
