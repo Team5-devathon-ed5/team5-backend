@@ -23,21 +23,11 @@ public class Account {
     @Column(name="Last_Name")
     private String lastName;
 
-    @Nullable
-    @Column(name="Phone_Code")
-    @Pattern(regexp = "^\\+[1-9]\\d{0,2}",
-            message = "Must be a valid international Phone code preceded by '+'.")
-    private String phoneCode;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", referencedColumnName = "number")
+    private Phone phone;
 
-    @Nullable
-    @Column(name="phone_number")
-    @Pattern(regexp = "^\\d{1,4}-\\d{1,4}-\\d{1,10}$",
-            message = "Must be a valid phone number.")
-    private String phoneNumber;
 
-    @Nullable
-    @Column(name="share_phone")
-    private Boolean sharePhone;
 
     //link al archivo de imagen
     @Column(name="image")
@@ -49,7 +39,7 @@ public class Account {
             message = "Must be a valid email.")
     private String email;
 
-    @Column(name="Account-active")
+    @Column(name="account_active")
     private Boolean accountActive;
 
     private String description;
@@ -76,13 +66,10 @@ public class Account {
     @Column(name="remember_token")
     private String rememberToken;
 
-    @Nullable
     private String city;
 
-    @Nullable
     private String address;
 
-    @Nullable
     @Column(name="Postal_Code")
     @Pattern(regexp = "^\\d{5,6}$")
     private String postalCode;

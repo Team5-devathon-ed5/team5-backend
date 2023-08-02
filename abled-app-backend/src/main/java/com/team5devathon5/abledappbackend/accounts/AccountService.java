@@ -57,9 +57,7 @@ public class AccountService {
         if (account.getAccountActive() != null) accountToUpdate.setAccountActive(account.getAccountActive());
         if (account.getDescription() != null) accountToUpdate.setDescription(account.getDescription());
         if (account.getImageLink() != null) accountToUpdate.setImageLink(account.getImageLink());
-        if (account.getPhoneCode() != null) accountToUpdate.setPhoneCode(account.getPhoneCode());
-        if (account.getPhoneNumber() != null) accountToUpdate.setPhoneNumber(account.getPhoneNumber());
-        if (account.getSharePhone() != null) accountToUpdate.setSharePhone(account.getSharePhone());
+        if (account.getPhone() != null) accountToUpdate.setPhone(account.getPhone());
         if (account.getUsername() != null) accountToUpdate.setUsername(account.getUsername());
         if (account.getCountry() != null) accountToUpdate.setCountry(account.getCountry());
         if (account.getCity() != null) accountToUpdate.setCity(account.getCity());

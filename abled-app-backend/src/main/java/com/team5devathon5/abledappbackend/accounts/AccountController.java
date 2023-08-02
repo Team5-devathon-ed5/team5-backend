@@ -6,15 +6,15 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
-@RequestMapping(path="users")
+@RequestMapping(path="/api/v1/users")
 @AllArgsConstructor
 @Tag(name="Account")
 public class AccountController {
