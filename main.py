@@ -1,7 +1,7 @@
 
 from typing import List
 
-from fastapi import FastAPI, Depends, Response
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
@@ -10,6 +10,8 @@ from app.schemas import Search, LodgingBase
 from sql_app.database import SessionLocal
 
 app = FastAPI()
+
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins = ['*'],
@@ -26,7 +28,7 @@ def get_db():
         db.close()
 
 
-@app.get('/search/',  response_model=List[LodgingBase])
+@app.get('/searching_lodgings/',  response_model=List[LodgingBase])
 def search_accommodation(search : Search, db: Session = Depends(get_db)):
     """
     Method to query all available lodgings based on the parameters set in Search.
@@ -36,5 +38,24 @@ def search_accommodation(search : Search, db: Session = Depends(get_db)):
     try:
         results = Lodging.get_list_lodging_available(search=search, db=db, skip=0, limit=5)
         return results
+    
     except Exception as e:
-        raise Response(content=f'Error, {e}', status_code=400)
+        raise HTTPException(status_code=400, detail=f"Bad Reguest :{str(e)}", headers={'content-type':'application/json'})
+
+
+@app.get("/lodging/{id}", response_model=LodgingBase)
+def read_user(id: int, db: Session = Depends(get_db)):
+    """
+    Method to get information of Lodging from id.
+    Input: int(id)
+    Output: Object(Lodging)
+    """
+    try:
+        lodging = Lodging.get_lodging(id=id, db=db)
+        if lodging is None:
+            raise HTTPException(status_code=404, detail="Lodging not found")
+        return lodging
+    
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Bad Reguest :{str(e)}", headers={'content-type':'application/json'})
+    

@@ -8,7 +8,7 @@ fake = Faker()
 
 # Test end to end for validate Search and Location model
 def test_validate_model():
-    urn = "/search/"
+    urn = "/searching_lodgings/"
     check_in_today = fake.date_this_year(before_today=False, after_today=False)
 
     #Case 1 (Correct Test): Correct data

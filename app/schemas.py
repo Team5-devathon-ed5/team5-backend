@@ -49,7 +49,36 @@ class Account(BaseModel):
 
     class Config:
         from_attributes = True
-        
+
+
+
+
+class LodgingMediaBase(BaseModel):
+    id: int
+    file_url: str
+    file_name: str
+    file_mime_type: str
+
+
+
+
+class CertificationBase(BaseModel):
+    id: int
+    file_url: str
+    file_name: str
+    file_mime_type: str
+
+
+
+class ExtraBase(BaseModel):
+    has_wheelchair_access: bool
+    has_kitchen: bool
+    has_internet: bool
+    has_tv: bool
+    has_laundry: bool
+    has_wc_adjust: bool
+    has_shower_adjust: bool
+
 
 class LodgingBase(BaseModel):
     id: int
@@ -65,19 +94,12 @@ class LodgingBase(BaseModel):
     check_out_hour: time
     owner_id: int
     account: Account
+    extra: List[ExtraBase] = []
+    media: List[LodgingMediaBase] = []
+    certification: List[CertificationBase] = []
+    
 
     class Config:
         from_attributes = True
 
-class LodgingMediaBase(BaseModel):
-    id: int
-    file_url: str
-    file_name: str
-    file_mime_type: str
 
-
-class CertificationBase(BaseModel):
-    id: int
-    file_url: str
-    file_name: str
-    file_mime_type: str
