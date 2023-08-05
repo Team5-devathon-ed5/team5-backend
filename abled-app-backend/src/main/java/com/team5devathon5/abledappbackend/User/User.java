@@ -21,11 +21,19 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+<<<<<<< HEAD
+=======
+    @Column(unique = true)
+>>>>>>> 7059b9bd45c6263f6c90e70a64bbdd8cafd5d004
     private String username;
     private String password;
 
     private String name;
     private String surname;
+<<<<<<< HEAD
+=======
+    @Column(unique = true)
+>>>>>>> 7059b9bd45c6263f6c90e70a64bbdd8cafd5d004
     private String email;
 
     @Override
