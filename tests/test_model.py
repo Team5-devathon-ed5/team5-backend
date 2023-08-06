@@ -1,15 +1,22 @@
 import requests, json
 from datetime import date, timedelta
 from faker import Faker
+from fastapi.testclient import TestClient
+
+from main import app
 
 
 LOCAL_URL = "http://localhost:8000"
 fake = Faker()
 
+client = TestClient(app)
+
+
 # Test end to end for validate Search and Location model
-def test_validate_model():
+def test_validate_search_model():
     urn = "/searching_lodgings/"
     check_in_today = fake.date_this_year(before_today=False, after_today=False)
+
 
     #Case 1 (Correct Test): Correct data
     data = {
@@ -20,7 +27,7 @@ def test_validate_model():
         "num_travellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
-    response = requests.get(url=f'{LOCAL_URL}{urn}', json=data)
+    response = client.post(urn, json=data)
     assert response.status_code == 200, f'Case 1: Incorrect. ERROR: \n {response.json()}'
     
 
@@ -33,7 +40,7 @@ def test_validate_model():
         "num_travellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
-    response = requests.get(url=f'{LOCAL_URL}{urn}', json=data)
+    response = client.post(urn, json=data)
     assert response.status_code == 422, f'Case Check 1: Incorrect. ERROR: \n {response.json()}'
 
 
@@ -47,7 +54,7 @@ def test_validate_model():
         "num_travellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
-    response = requests.get(url=f'{LOCAL_URL}{urn}', json=data)
+    response = client.post(urn, json=data)
     assert response.status_code == 422, f'Case Check 2: Incorrect. ERROR: \n {response.json()}'
 
 
@@ -60,7 +67,7 @@ def test_validate_model():
         "num_travellers": 0,
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
-    response = requests.get(url=f'{LOCAL_URL}{urn}', json=data)
+    response = client.post(urn, json=data)
     assert response.status_code == 422, f'Case Check 3: Incorrect. ERROR: \n {response.json()}'
 
 
@@ -73,7 +80,7 @@ def test_validate_model():
         "num_travellers": fake.pyint(min_value=1, max_value=3),
         "ratio": 0
     }
-    response = requests.get(url=f'{LOCAL_URL}{urn}', json=data)
+    response = client.post(urn, json=data)
     assert response.status_code == 422, f'Case Check 4: Incorrect. ERROR: \n {response.json()}'
 
 
@@ -86,7 +93,7 @@ def test_validate_model():
         "num_travellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
-    response = requests.get(url=f'{LOCAL_URL}{urn}', json=data)
+    response = client.post(urn, json=data)
     assert response.status_code == 422, f'Case Check 5: Incorrect. ERROR: \n {response.json()}'
 
 
@@ -99,7 +106,7 @@ def test_validate_model():
         "num_travellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
-    response = requests.get(url=f'{LOCAL_URL}{urn}', json=data)
+    response = client.post(urn, json=data)
     assert response.status_code == 422, f'Case Check 6: Incorrect. ERROR: \n {response.json()}'
 
 
@@ -112,7 +119,7 @@ def test_validate_model():
         "num_travellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
-    response = requests.get(url=f'{LOCAL_URL}{urn}', json=data)
+    response = client.post(urn, json=data)
     assert response.status_code == 422, f'Case Check 7: Incorrect. ERROR: \n {response.json()}'
 
 
@@ -123,7 +130,7 @@ def test_validate_model():
         "num_travellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
-    response = requests.get(url=f'{LOCAL_URL}{urn}', json=data)
+    response = client.post(urn, json=data)
     assert response.status_code == 422, f'Case Data 1: Incorrect. ERROR: \n {response.json()}'
 
 
@@ -135,7 +142,7 @@ def test_validate_model():
         "num_travellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
-    response = requests.get(url=f'{LOCAL_URL}{urn}', json=data)
+    response = client.post(urn, json=data)
     assert response.status_code == 422, f'Case Data 2: Incorrect. ERROR: \n {response.json()}'
 
 
@@ -147,7 +154,8 @@ def test_validate_model():
         "num_travellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
-    response = requests.get(url=f'{LOCAL_URL}{urn}', json=data)
+    response = client.post(urn, json=data)
     assert response.status_code == 422, f'Case Data 3: Incorrect. ERROR: \n {response.json()}'
 
-test_validate_model()
+
+test_validate_search_model()

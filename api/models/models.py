@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy import Column, Table, func, exists, Boolean, ForeignKey, String, DECIMAL, DateTime, Time
 from sqlalchemy.orm import DeclarativeBase, Session, Mapped, relationship, mapped_column
 
-from app.schemas import Search
+from api.schemas.schemas import Search
 
 class Base(DeclarativeBase):
     pass
@@ -13,10 +13,12 @@ certification_group = Table("certification_group", Base.metadata,
                             Column("lodging_id",ForeignKey("lodging.id"), primary_key=True),
                             Column("certification_id",ForeignKey("certification.id"), primary_key=True),)
 
+
 #Relationship beetwen Lodging and Extra
 extra_group = Table("extra_group", Base.metadata, 
                             Column("lodging_id",ForeignKey("lodging.id"), primary_key=True),
                             Column("extra_id",ForeignKey("extra.id"), primary_key=True),)
+
 
 
 
@@ -45,6 +47,8 @@ class Certification(Base):
     file_mime_type: Mapped[str] = mapped_column(String(50))
 
 
+
+
 class Extra(Base):
     __tablename__ = "extra"
 
@@ -56,6 +60,7 @@ class Extra(Base):
     has_laundry: Mapped[bool] = mapped_column(Boolean)
     has_wc_adjust: Mapped[bool] = mapped_column(Boolean)
     has_shower_adjust: Mapped[bool] = mapped_column(Boolean)
+
 
 
 
@@ -82,6 +87,7 @@ class Lodging(Base):
     account = relationship("Account", back_populates="lodging")
     media = relationship("LodgingMedia", back_populates="lodging") #TODO media es list
 
+
     def get_list_lodging_available(search: Search, db: Session, skip: int = 0, limit: int = 100):
         reserve = Reservation.get_reservations_between_dates(search=search, db=db)
         reserve = reserve.subquery()
@@ -93,8 +99,10 @@ class Lodging(Base):
         
         return lodgings
 
+
     def get_lodging(db: Session, id: int):
         return db.query(Lodging).filter(Lodging.id == id).first()
+
 
 
 
@@ -112,6 +120,7 @@ class LodgingMedia(Base):
 
 
 
+
 class Reservation(Base):
     __tablename__ = "reservation"
 
@@ -125,6 +134,6 @@ class Reservation(Base):
 
 
     def get_reservations_between_dates(search: Search, db: Session, skip: int = 0, limit: int = 100):
-        reserve = db.query(Reservation.lodging_id).filter(Reservation.check_in <= search.check_out, Reservation.check_out >= search.check_in)
+        reserve = db.query(Reservation.lodging_id).filter(Reservation.check_in <= search.check_out, Reservation.check_out >= search.check_in, Reservation.has_canceled == False)
         
         return reserve

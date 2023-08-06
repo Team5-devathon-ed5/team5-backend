@@ -1,10 +1,14 @@
+from pydantic import BaseModel, validator, confloat
 from datetime import date, datetime, time
 from typing import List
-from pydantic import BaseModel, validator, confloat
+
+
 
 class Location(BaseModel):
     latitude: confloat(ge=-90.00, le=90.00)
     longitude: confloat(ge=-180.00, le=180.00)
+
+
 
 
 class Search(BaseModel):
@@ -14,11 +18,13 @@ class Search(BaseModel):
     num_travellers: int
     ratio: int
 
+
     @validator("check_in")
     def validate_check_in(cls, value):
         if value < date.today():
             raise ValueError("Check-in date cannot be before today.")
         return value
+
 
     @validator("check_out")
     def validate_check_out(cls, value, values):
@@ -28,11 +34,13 @@ class Search(BaseModel):
             raise ValueError("Check-out date cannot be before check-in date.")
         return value
 
+
     @validator("num_travellers")
     def validate_num_travellers(cls, value):
         if value < 1:
             raise ValueError("Number of travellers cannot be less than 1.")
         return value    
+
 
     @validator("ratio")
     def validate_ratio(cls, value):
@@ -40,12 +48,16 @@ class Search(BaseModel):
             raise ValueError("Ratio cannot be less than 1.")
         return value   
 
+
+
+
 class Account(BaseModel):
     id: int
     name: str
     last_name: str
     image_url: str
     detail: str
+
 
     class Config:
         from_attributes = True
@@ -70,6 +82,7 @@ class CertificationBase(BaseModel):
 
 
 
+
 class ExtraBase(BaseModel):
     has_wheelchair_access: bool
     has_kitchen: bool
@@ -78,6 +91,8 @@ class ExtraBase(BaseModel):
     has_laundry: bool
     has_wc_adjust: bool
     has_shower_adjust: bool
+
+
 
 
 class LodgingBase(BaseModel):
@@ -101,5 +116,3 @@ class LodgingBase(BaseModel):
 
     class Config:
         from_attributes = True
-
-

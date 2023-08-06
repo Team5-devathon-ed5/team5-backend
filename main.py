@@ -5,9 +5,9 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from app.models import Lodging
-from app.schemas import Search, LodgingBase
-from sql_app.database import SessionLocal
+from api.models.models import Lodging
+from api.schemas.schemas import Search, LodgingBase
+from api.sql.database import SessionLocal
 
 app = FastAPI()
 
@@ -28,8 +28,8 @@ def get_db():
         db.close()
 
 
-@app.get('/searching_lodgings/',  response_model=List[LodgingBase])
-def search_accommodation(search : Search, db: Session = Depends(get_db)):
+@app.post('/searching_lodgings/',  response_model=List[LodgingBase])
+def search_lodgings_available(search : Search, db: Session = Depends(get_db)):
     """
     Method to query all available lodgings based on the parameters set in Search.
     Input: Object(Search)
@@ -43,8 +43,8 @@ def search_accommodation(search : Search, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=f"Bad Reguest :{str(e)}", headers={'content-type':'application/json'})
 
 
-@app.get("/lodging/{id}", response_model=LodgingBase)
-def read_user(id: int, db: Session = Depends(get_db)):
+@app.post("/lodging/{id}", response_model=LodgingBase)
+def get_lodging(id: int, db: Session = Depends(get_db)):
     """
     Method to get information of Lodging from id.
     Input: int(id)
