@@ -6,9 +6,7 @@ from fastapi.testclient import TestClient
 from main import app
 
 
-LOCAL_URL = "http://localhost:8000"
 fake = Faker()
-
 client = TestClient(app)
 
 

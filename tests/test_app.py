@@ -1,10 +1,8 @@
 import pytest, httpx
 from fastapi.testclient import TestClient
+
 from main import app, get_db
-
-
 from tests.test_sql import TestingSessionLocal, Session, create_test_account, create_test_lodging, create_test_reservation
-
 
 
 def override_get_db():
@@ -17,10 +15,9 @@ def override_get_db():
         db.close()
 
 app.dependency_overrides[get_db] = override_get_db
-
 client = TestClient(app)
 
-def test_create_data(db:Session):
+def test_create_data(db: Session):
     """
     Method for generating test data and properly verifying the service's functionality.
     Generate:

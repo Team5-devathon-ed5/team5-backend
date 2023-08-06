@@ -31,4 +31,3 @@ python3 -m pip install -r requirements.txt
 * Navigate to the directory that has the file `main.py` and launch next command in terminal.
 ### Launch server with uvicorn.
 * uvicorn main:app --reload
-

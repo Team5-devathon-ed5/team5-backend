@@ -1,13 +1,16 @@
-
 from datetime import datetime, timedelta
 from faker import Faker
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import Session, sessionmaker, declarative_base
 from sqlalchemy.pool import StaticPool
 
 
-from api.sql.database import Base, SQLALCHEMY_DATABASE_URL
+from api.sql.database import SQLALCHEMY_DATABASE_URL
 from api.models.models import Account, Lodging, Reservation
+
+
+fake = Faker()
+
 
 #Test connection
 engine = create_engine(
@@ -16,11 +19,9 @@ engine = create_engine(
 )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+Base = declarative_base()
 Base.metadata.create_all(bind=engine)
 
-
-
-fake = Faker()
 
 def create_test_account(db: Session, account_active: bool = True):
     #Create and add account in database.

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator, confloat
+from pydantic import BaseModel, confloat, field_validator, FieldValidationInfo
 from datetime import date, datetime, time
 from typing import List
 
@@ -19,30 +19,30 @@ class Search(BaseModel):
     ratio: int
 
 
-    @validator("check_in")
+    @field_validator("check_in")
     def validate_check_in(cls, value):
         if value < date.today():
             raise ValueError("Check-in date cannot be before today.")
         return value
 
 
-    @validator("check_out")
-    def validate_check_out(cls, value, values):
-        if not "check_in" in values:
+    @field_validator("check_out")
+    def validate_check_out(cls, value, info: FieldValidationInfo):     
+        if not 'check_in' in info.data.keys():
             raise ValueError("Value Check-in is obligatory.")
-        if "check_in" in values and value < values["check_in"]:
+        if value < info.data.get('check_in'):
             raise ValueError("Check-out date cannot be before check-in date.")
         return value
 
 
-    @validator("num_travellers")
+    @field_validator("num_travellers")
     def validate_num_travellers(cls, value):
         if value < 1:
             raise ValueError("Number of travellers cannot be less than 1.")
         return value    
 
 
-    @validator("ratio")
+    @field_validator("ratio")
     def validate_ratio(cls, value):
         if value < 1:
             raise ValueError("Ratio cannot be less than 1.")
@@ -59,7 +59,7 @@ class Account(BaseModel):
     detail: str
 
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 
@@ -114,5 +114,5 @@ class LodgingBase(BaseModel):
     certification: List[CertificationBase] = []
     
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
