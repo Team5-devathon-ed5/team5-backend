@@ -6,12 +6,14 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Builder
 @Entity
-@Table(name ="Account")
+@Table(name ="phone")
 public class Phone {
 
     @Id

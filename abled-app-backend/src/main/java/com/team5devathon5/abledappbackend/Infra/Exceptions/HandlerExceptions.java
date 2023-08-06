@@ -18,9 +18,8 @@ public class HandlerExceptions {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ApiResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex){
         String errorMessage = ex.getMostSpecificCause().getMessage();
-        if (errorMessage.contains("username exist")){
-            return new ResponseEntity<>(new ApiResponse("This Username already use"), HttpStatus.BAD_REQUEST);
-        } else if (errorMessage.contains("email exist")) {
+
+        if (errorMessage.contains("email exist")) {
             return new ResponseEntity<>(new ApiResponse("This Email is already use"), HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(new ApiResponse("Error processing the information check that the fields are not empty"), HttpStatus.BAD_REQUEST);

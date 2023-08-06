@@ -1,12 +1,11 @@
 package com.team5devathon5.abledappbackend.Service;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.team5devathon5.abledappbackend.User.User;
+import com.team5devathon5.abledappbackend.accounts.Account;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +18,14 @@ public class TokenService {
 
     @Value("${able.security.secret}")
     private String ableSecret;
-    public String generateToken(User user){
+    public String generateToken(Account account){
 
         try {
             Algorithm algorithm = Algorithm.HMAC256(ableSecret);
             return JWT.create()
                     .withIssuer("able")
-                    .withSubject(user.getUsername())
-                    .withClaim("id",user.getId())
+                    .withSubject(account.getEmail())
+                    .withClaim("id",account.getId())
                     .withExpiresAt(tokenExpiration())
                     .sign(algorithm);
         } catch (JWTCreationException exception){

@@ -1,6 +1,5 @@
 package com.team5devathon5.abledappbackend.accounts;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -58,7 +57,6 @@ public class AccountService {
         if (account.getDescription() != null) accountToUpdate.setDescription(account.getDescription());
         if (account.getImageLink() != null) accountToUpdate.setImageLink(account.getImageLink());
         if (account.getPhone() != null) accountToUpdate.setPhone(account.getPhone());
-        if (account.getUsername() != null) accountToUpdate.setUsername(account.getUsername());
         if (account.getCountry() != null) accountToUpdate.setCountry(account.getCountry());
         if (account.getCity() != null) accountToUpdate.setCity(account.getCity());
         if (account.getAddress() != null) accountToUpdate.setAddress(account.getAddress());

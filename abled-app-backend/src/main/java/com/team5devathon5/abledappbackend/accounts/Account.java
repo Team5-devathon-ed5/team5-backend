@@ -1,18 +1,27 @@
 package com.team5devathon5.abledappbackend.accounts;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-@Table(name="Account")
+@Table(name="accounts")
+@AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Account {
+@Getter
+public class Account implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,10 +33,8 @@ public class Account {
     private String lastName;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "number")
+    @JoinColumn(name = "phone_id", referencedColumnName = "phone_number")
     private Phone phone;
-
-
 
     //link al archivo de imagen
     @Column(name="image")
@@ -47,17 +54,15 @@ public class Account {
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
-    @Column(name="updated_at")
+    @Column(name="update_at")
     private LocalDateTime updatedAt;
 
-    @Column(unique = true)
-    private String username;
     // ^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d!@#$%^&*()_+]{8,16}$
     //La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula
     // y al menos una mayúscula. Puede tener otros símbolos.
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\\d!@#$%^&*()_+]{8,16}$",
-            message = "Must contain between 8 and 16 characters with at least one digit, " +
-                    "at least a letter in uppercase and a letter in lowercase. Can contain symbols.")
+    //@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\\d!@#$%^&*()_+]{8,16}$",
+            //message = "Must contain between 8 and 16 characters with at least one digit, " +
+                    //"at least a letter in uppercase and a letter in lowercase. Can contain symbols.")
     private String password;
 
     private String country;
@@ -74,21 +79,37 @@ public class Account {
     @Pattern(regexp = "^\\d{5,6}$")
     private String postalCode;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
 
-    public Account(String name, String lastName, String imageLink, String email,
-                   Boolean accountActive, String description, String username,
-                   String password, String country, String rememberToken, Role role) {
-        this.name = name;
-        this.lastName = lastName;
-        this.imageLink = imageLink;
-        this.email = email;
-        this.accountActive = accountActive;
-        this.description = description;
-        this.username = username;
-        this.password = password;
-        this.country = country;
-        this.rememberToken = rememberToken;
-        this.role = role;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        return authorities;
+    }
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

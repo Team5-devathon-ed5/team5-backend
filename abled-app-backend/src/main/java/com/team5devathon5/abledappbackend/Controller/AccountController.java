@@ -1,5 +1,7 @@
-package com.team5devathon5.abledappbackend.accounts;
+package com.team5devathon5.abledappbackend.Controller;
 
+import com.team5devathon5.abledappbackend.accounts.Account;
+import com.team5devathon5.abledappbackend.accounts.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
