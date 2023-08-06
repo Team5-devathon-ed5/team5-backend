@@ -16,7 +16,7 @@ python -m pip install -r requirements.txt
 python3 -m pip install -r requirements.txt 
 ```
 ### Files.
-* Navigate to the `sql_app` directory.
+* Navigate to the `api\sql` directory.
 * Create a new file named `.env`.
 * Add the next structure to the file.
     ```
@@ -30,4 +30,6 @@ python3 -m pip install -r requirements.txt
 ### How to Run the Application.
 * Navigate to the directory that has the file `main.py` and launch next command in terminal.
 ### Launch server with uvicorn.
-* uvicorn main:app --reload
+```python
+    * uvicorn main:app --reload
+```
