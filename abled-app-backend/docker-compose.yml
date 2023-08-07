@@ -5,8 +5,11 @@ services:
     image: mysql:8.0
     command: --default-authentication-plugin=caching_sha2_password
     container_name: mysqldb
+
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./db/sql/project_abled.sql:/docker-entrypoint-initdb.d/project_abled.sql
     ports:
       - "3306:3306"

@@ -24,7 +24,7 @@ public class Account {
     private String lastName;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "number")
+    @JoinColumn(name = "phone_id", referencedColumnName = "id")
     private Phone phone;
 
 
