@@ -28,7 +28,7 @@ def get_db():
         db.close()
 
 
-@app.post('/searching_lodgings/',  response_model=List[LodgingBase])
+@app.post("/searchlodging/",  response_model=List[LodgingBase])
 def search_lodgings_available(search : Search, db: Session = Depends(get_db)):
     """
     Method to query all available lodgings based on the parameters set in Search.
@@ -43,7 +43,7 @@ def search_lodgings_available(search : Search, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=f"Bad Reguest :{str(e)}", headers={'content-type':'application/json'})
 
 
-@app.post("/lodging/{id}", response_model=LodgingBase)
+@app.get("/lodging/{id}", response_model=LodgingBase)
 def get_lodging(id: int, db: Session = Depends(get_db)):
     """
     Method to get information of Lodging from id.

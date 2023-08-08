@@ -33,3 +33,14 @@ python3 -m pip install -r requirements.txt
 ```python
     * uvicorn main:app --reload
 ```
+## Endpoints
+### Lodging
+Method to retrieve all the information of a Lodging using the parameter ID.
+* GET /lodging/{id}
+
+Method to retrieve all the information of available Lodging based on the input parameters of the Search schema.
+* POST /searchlodging/
+
+### Documentation
+API documentation in Swagger/OpenAPI format.
+* /docs

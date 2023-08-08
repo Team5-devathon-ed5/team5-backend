@@ -12,7 +12,7 @@ client = TestClient(app)
 
 # Test end to end for validate Search and Location model
 def test_validate_search_model():
-    urn = "/searching_lodgings/"
+    urn = "/searchlodging/"
     check_in_today = fake.date_this_year(before_today=False, after_today=False)
 
 
