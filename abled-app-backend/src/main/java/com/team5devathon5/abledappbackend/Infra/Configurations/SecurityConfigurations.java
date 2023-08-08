@@ -37,7 +37,7 @@ public class SecurityConfigurations {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET, "/able/home")
+                .requestMatchers(HttpMethod.POST, "/api/v1/password/**")
                 .permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/login")
                 .permitAll()

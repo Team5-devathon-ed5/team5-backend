@@ -1,8 +1,8 @@
 package com.team5devathon5.abledappbackend.Service;
 
-import com.team5devathon5.abledappbackend.User.DataNewAccount;
-import com.team5devathon5.abledappbackend.accounts.Account;
-import com.team5devathon5.abledappbackend.accounts.AccountRepository;
+import com.team5devathon5.abledappbackend.User.DataNewUser;
+import com.team5devathon5.abledappbackend.accounts.User;
+import com.team5devathon5.abledappbackend.accounts.UserRepository;
 import com.team5devathon5.abledappbackend.accounts.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,26 +19,25 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class RegisterService implements UserDetailsService {
 
-    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
 
-    public void registerAccount(DataNewAccount dataNewAccount){
+    public void registerUser(DataNewUser dataNewUser){
 
         PasswordEncoder passwordBCrypt= new BCryptPasswordEncoder();
-        String accountHashedPassword = passwordBCrypt.encode(dataNewAccount.password());
+        String userHashedPassword = passwordBCrypt.encode(dataNewUser.password());
 
-        Account newAccount =  new Account(null, dataNewAccount.name(), dataNewAccount.last_name(),null,null,
-                                dataNewAccount.email(),null,null, LocalDateTime.now(),null, accountHashedPassword,
-                                dataNewAccount.country(),null,null,null,null,null);
-        newAccount.setRole(Role.LODGER);
+        User newUser =  new User(null,null,null,null,null,userHashedPassword,dataNewUser.email(),null,
+                                            null,null,null,null,null,LocalDateTime.now(),null,null);
+        newUser.setRole(Role.LODGER);
 
-        if (accountRepository.findByEmail(dataNewAccount.email()) != null) {
+        if (userRepository.findByEmail(dataNewUser.email()) != null) {
             throw new DataIntegrityViolationException("email exist");
         }else {
-            accountRepository.save(newAccount);
+            userRepository.save(newUser);
         }
     }
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return accountRepository.findByEmail(email);
+        return userRepository.findByEmail(email);
     }
 }

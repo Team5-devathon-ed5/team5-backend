@@ -1,4 +1,4 @@
 package com.team5devathon5.abledappbackend.Service;
 
-public record DatosJWTtoken(String jwTtoken) {
+public record DataJWTtoken(String jwTtoken) {
 }

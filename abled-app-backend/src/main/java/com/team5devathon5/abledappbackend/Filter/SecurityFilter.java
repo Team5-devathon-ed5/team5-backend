@@ -1,8 +1,7 @@
 package com.team5devathon5.abledappbackend.Filter;
 
 import com.team5devathon5.abledappbackend.Service.TokenService;
-import com.team5devathon5.abledappbackend.accounts.Account;
-import com.team5devathon5.abledappbackend.accounts.AccountRepository;
+import com.team5devathon5.abledappbackend.accounts.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +19,7 @@ import java.io.IOException;
 public class SecurityFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
-    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -34,7 +33,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             var subjectUser = tokenService.getSubject(token);
 
             if (subjectUser != null) {
-                var account = accountRepository.findByEmail(subjectUser);
+                var account = userRepository.findByEmail(subjectUser);
                 var authentication = new UsernamePasswordAuthenticationToken(account, null, account.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

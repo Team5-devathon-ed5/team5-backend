@@ -16,46 +16,51 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name="accounts")
+@Table(name="users")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Getter
-public class Account implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String name;
+    @Column(name = "phone_code")
+    private String phoneCode;
+    @Column(name = "phone_number")
+    private String phoneNumber;
+    @Column(name = "phone_share")
+    private Boolean phoneShare;
 
-    @Column(name="Last_Name")
-    private String lastName;
+    private String password;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "phone_id", referencedColumnName = "phone_number")
-    private Phone phone;
-
-    //link al archivo de imagen
-    @Column(name="image")
-    private String imageLink;
-
-    @Column(unique = true)
     @Pattern(regexp = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)" +
-                "*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$",
+            "*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$",
             message = "Must be a valid email.")
     private String email;
 
-    @Column(name="account_active")
-    private Boolean accountActive;
+    @Column(name = "image_url")
+    private String imageUrl;
 
-    private String description;
+    @Column(name = "user_active")
+    private Boolean userActive;
 
-    @Column(name="created_at")
-    private LocalDateTime createdAt;
+    private String detail;
 
-    @Column(name="update_at")
-    private LocalDateTime updatedAt;
+    private String address;
+
+    private String Country;
+
+    @Column(name = "remember_token")
+    private String rememberToken;
+
+    private LocalDateTime created;
+
+    private LocalDateTime updated;
+
 
     // ^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d!@#$%^&*()_+]{8,16}$
     //La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula
@@ -63,21 +68,6 @@ public class Account implements UserDetails {
     //@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\\d!@#$%^&*()_+]{8,16}$",
             //message = "Must contain between 8 and 16 characters with at least one digit, " +
                     //"at least a letter in uppercase and a letter in lowercase. Can contain symbols.")
-    private String password;
-
-    private String country;
-
-    //se validará de forma diferente
-    @Column(name="remember_token")
-    private String rememberToken;
-
-    private String city;
-
-    private String address;
-
-    @Column(name="Postal_Code")
-    @Pattern(regexp = "^\\d{5,6}$")
-    private String postalCode;
 
     @Enumerated(EnumType.STRING)
     private Role role;

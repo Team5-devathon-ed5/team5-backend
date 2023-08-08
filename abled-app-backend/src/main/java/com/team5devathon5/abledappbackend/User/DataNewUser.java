@@ -4,16 +4,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record DataNewAccount(
+public record DataNewUser(
                             @NotBlank
                             @Email
                             String email,
                             @NotNull
-                            String password,
-                            @NotBlank
-                            String name,
-                            @NotBlank
-                            String last_name,
-                            @NotBlank
-                            String country) {
+                            String password) {
 }

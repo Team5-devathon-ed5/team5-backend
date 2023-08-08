@@ -5,6 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -32,5 +33,18 @@ public class HandlerExceptions {
         String messageError = "This field: "+ fieldError + ", cannot be empty.";
         ApiResponse response = new ApiResponse(messageError);
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiResponse> userNotFoundException (RuntimeException userRun) {
+        String errorMessage = userRun.getMessage();
+        ResponseEntity<ApiResponse> response = null;
+
+        if (errorMessage.contains("User not found")) {
+            response =new ResponseEntity<>(new ApiResponse("User not found, please check your email or register at Able.com/register "), HttpStatus.NOT_FOUND);
+        } else if (errorMessage.contains("validOpt expired")) {
+            response =new ResponseEntity<>(new ApiResponse("Otp wrong or expired"), HttpStatus.BAD_REQUEST);
+        }
+        return response;
     }
 }

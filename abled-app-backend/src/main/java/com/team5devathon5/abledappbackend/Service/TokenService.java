@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.team5devathon5.abledappbackend.accounts.Account;
+import com.team5devathon5.abledappbackend.accounts.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +18,14 @@ public class TokenService {
 
     @Value("${able.security.secret}")
     private String ableSecret;
-    public String generateToken(Account account){
+    public String generateToken(User user){
 
         try {
             Algorithm algorithm = Algorithm.HMAC256(ableSecret);
             return JWT.create()
                     .withIssuer("able")
-                    .withSubject(account.getEmail())
-                    .withClaim("id",account.getId())
+                    .withSubject(user.getEmail())
+                    .withClaim("id",user.getId())
                     .withExpiresAt(tokenExpiration())
                     .sign(algorithm);
         } catch (JWTCreationException exception){
