@@ -1,7 +1,7 @@
 package com.team5devathon5.abledappbackend.Controller;
 
-import com.team5devathon5.abledappbackend.accounts.User;
-import com.team5devathon5.abledappbackend.accounts.UserService;
+import com.team5devathon5.abledappbackend.accounts.Users;
+import com.team5devathon5.abledappbackend.Service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -23,21 +23,21 @@ public class UserController {
 
     @GetMapping
     @Operation(summary = "Return a list with all users")
-    public ResponseEntity<List<User>> showAllUsers(){
+    public ResponseEntity<List<Users>> showAllUsers(){
         var accounts = userService.getAllUser();
         return ResponseEntity.ok(accounts);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "return the specific user with this id from our list.")
-    public ResponseEntity<User> showUserById(@PathVariable Integer id){
+    public ResponseEntity<Users> showUserById(@PathVariable Integer id){
         var userToShow = userService.getById(id);
         return ResponseEntity.ok(userToShow);
     }
 
     @GetMapping("/mail")
     @Operation(summary = "return the specific user with an email introduced as a param, from our list.")
-    public ResponseEntity<User> showUserByEmail(@RequestParam String email){
+    public ResponseEntity<Users> showUserByEmail(@RequestParam String email){
         var userToShow = userService.getByEmail(email);
         return ResponseEntity.ok(userToShow);
     }
@@ -59,14 +59,14 @@ public class UserController {
     //status 200?
     @PutMapping("/{id}")
     @Operation(summary = "update the user with an specific id with the values introduced.")
-    public ResponseEntity<User> updateUserById(@PathVariable Integer id, @Valid @RequestBody User user){
+    public ResponseEntity<Users> updateUserById(@PathVariable Integer id, @Valid @RequestBody Users user){
         var accountToUpdate = userService.updateUserById(id, user);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/mail")
     @Operation(summary = "update the user with an specific email (introduced as a param) with the new values introduced.")
-    public ResponseEntity<User> updateUserByEmail(@RequestParam String email, @Valid @RequestBody User user){
+    public ResponseEntity<Users> updateUserByEmail(@RequestParam String email, @Valid @RequestBody Users user){
         var userToUpdate = userService.updateUserByEmail(email, user);
         return ResponseEntity.noContent().build();
     }

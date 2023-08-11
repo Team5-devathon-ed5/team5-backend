@@ -1,16 +1,25 @@
 package com.team5devathon5.abledappbackend.accounts;
 
-public enum Role {
-    ADMIN("ROLE_ADMIN"),
-    LODGER("ROLE_LODGER"),
-    HIRER("ROLE_HIRER"),
-    LODGER_AND_HIRER("ROLE_LODGER_AND_HIRER");
-    private final String roleName;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    Role(String roleName){
-        this.roleName=roleName;
-    }
-    public String getRoleName(){
-        return roleName;
-    }
+@Entity
+@Table(name = "role")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class Role {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "name_role")
+    private String nameRole;
+    private String detail;
+
 }

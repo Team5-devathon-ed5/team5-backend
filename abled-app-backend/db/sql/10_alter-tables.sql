@@ -8,6 +8,6 @@ USE abled;
   ALTER TABLE certification_group ADD FOREIGN KEY (certification_id) REFERENCES certification (id);
   ALTER TABLE extra_group ADD FOREIGN KEY (lodging_id) REFERENCES lodging (id);
   ALTER TABLE extra_group ADD FOREIGN KEY (extra_id) REFERENCES extra (id);
-  ALTER TABLE lodging ADD FOREIGN KEY (id) REFERENCES reservation (lodging_id);
+  ALTER TABLE reservation ADD FOREIGN KEY (lodging_id) REFERENCES lodging(id);
   ALTER TABLE opinion ADD FOREIGN KEY (reservation_id) REFERENCES reservation (id);
   ALTER TABLE opinion ADD FOREIGN KEY (author_id) REFERENCES users (id);

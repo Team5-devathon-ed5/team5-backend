@@ -2,10 +2,7 @@ package com.team5devathon5.abledappbackend.accounts;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +18,8 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Getter
-public class User implements UserDetails {
+@Setter
+public class Users implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -61,21 +59,21 @@ public class User implements UserDetails {
 
     private LocalDateTime updated;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "role_group",
+            joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "id")
+    )
+    private List<Role> role= new ArrayList<>();
 
-    // ^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d!@#$%^&*()_+]{8,16}$
-    //La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula
-    // y al menos una mayúscula. Puede tener otros símbolos.
-    //@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\\d!@#$%^&*()_+]{8,16}$",
-            //message = "Must contain between 8 and 16 characters with at least one digit, " +
-                    //"at least a letter in uppercase and a letter in lowercase. Can contain symbols.")
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        List<Role> roles = getRole();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (Role role:roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getNameRole()));
+        }
         return authorities;
     }
     @Override

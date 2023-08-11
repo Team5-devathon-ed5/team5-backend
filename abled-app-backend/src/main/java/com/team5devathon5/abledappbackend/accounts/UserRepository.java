@@ -3,8 +3,11 @@ package com.team5devathon5.abledappbackend.accounts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+import java.util.Optional;
 
-    User findByEmail(String email);
+@Repository
+public interface UserRepository extends JpaRepository<Users, Integer> {
+
+    Users findByEmail (String email);
+    Boolean existsByEmail (String email);
 }

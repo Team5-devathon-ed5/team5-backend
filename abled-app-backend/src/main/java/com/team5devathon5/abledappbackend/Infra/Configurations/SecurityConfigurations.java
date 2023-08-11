@@ -1,6 +1,7 @@
 package com.team5devathon5.abledappbackend.Infra.Configurations;
 
 import com.team5devathon5.abledappbackend.Filter.SecurityFilter;
+import com.team5devathon5.abledappbackend.Service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -26,9 +27,12 @@ import java.util.Arrays;
 public class SecurityConfigurations {
 
     private final SecurityFilter securityFilter;
+    private final CustomUserDetailsService userDetailsService;
 
-    public SecurityConfigurations(SecurityFilter securityFilter) {
+    public SecurityConfigurations(SecurityFilter securityFilter, CustomUserDetailsService userDetailsService) {
+
         this.securityFilter = securityFilter;
+        this.userDetailsService= userDetailsService;
     }
 
     @Bean
@@ -43,8 +47,7 @@ public class SecurityConfigurations {
                 .permitAll()
                 .requestMatchers(HttpMethod.POST,"/api/v1/register")
                 .permitAll()
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

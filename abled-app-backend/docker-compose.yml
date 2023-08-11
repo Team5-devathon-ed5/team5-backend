@@ -20,6 +20,9 @@ services:
       - ./db/sql/08_table-reservation.sql:/docker-entrypoint-initdb.d/08_table-reservation.sql
       - ./db/sql/09_table-opinion.sql:/docker-entrypoint-initdb.d/09_table-opinion.sql
       - ./db/sql/10_alter-tables.sql:/docker-entrypoint-initdb.d/10_alter-tables.sql
-
+      - ./db/sql/11_table-role.sql:/docker-entrypoint-initdb.d/11_table-role.sql
+      - ./db/sql/12_table-role_group.sql:/docker-entrypoint-initdb.d/12_table-role_group.sql
+      - ./db/sql/13_alter-tables-role-rgroup.sql:/docker-entrypoint-initdb.d/13_alter-tables-role-rgroup.sql
+      - ./db/sql/14_alter-table-role-add.sql:/docker-entrypoint-initdb.d/14_alter-table-role-add.sql
     ports:
       - "3307:3306"

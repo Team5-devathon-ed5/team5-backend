@@ -1,4 +1,4 @@
-package com.team5devathon5.abledappbackend.User;
+package com.team5devathon5.abledappbackend.DTO;
 
 import jakarta.validation.constraints.NotBlank;
 
