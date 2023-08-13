@@ -188,4 +188,4 @@ env.bak/
 venv.bak/
 
 # Docker
-.Dockerfile
+.env.template

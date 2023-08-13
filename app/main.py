@@ -1,4 +1,3 @@
-
 from typing import List
 
 from fastapi import FastAPI, Depends, HTTPException
@@ -36,9 +35,13 @@ def search_lodgings_available(search : Search, db: Session = Depends(get_db)):
     Output: List[Objets(Lodging)]
     """
     try:
-        results = Lodging.get_list_lodging_available(search=search, db=db, skip=0, limit=5)
-        return results
+        lodgings = Lodging.get_list_lodging_available(search=search, db=db, skip=0, limit=5)
+        if lodgings.count() < 1:
+            raise HTTPException(status_code=404, detail="Lodgings not found")
+        return lodgings
     
+    except HTTPException as e:
+        raise HTTPException(status_code=e.status_code, detail=e.detail, headers={'content-type':'application/json'})
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Bad Reguest :{str(e)}", headers={'content-type':'application/json'})
 
@@ -52,10 +55,13 @@ def get_lodging(id: int, db: Session = Depends(get_db)):
     """
     try:
         lodging = Lodging.get_lodging(id=id, db=db)
+
         if lodging is None:
             raise HTTPException(status_code=404, detail="Lodging not found")
         return lodging
     
+    except HTTPException as e:
+        raise HTTPException(status_code=e.status_code, detail=e.detail, headers={'content-type':'application/json'})
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Bad Reguest :{str(e)}", headers={'content-type':'application/json'})
     

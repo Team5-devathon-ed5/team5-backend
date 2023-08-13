@@ -17,22 +17,36 @@ python -m pip install -r requirements.txt
 python3 -m pip install -r requirements.txt 
 ```
 ### Archivos.
-* Posicionarse en el directorio `api\sql`
+* Posicionarse en el directorio raiz `app`
 * Crear un nuevo fichero llamado `.env`
 * Añadir dentro del fihcero el siguiente contenido.
     ```
-    DB_ROOT = "<DB_ROOT>"
-    DB_PASSWORD = "<DB_PASSWORD>"
-    DB_HOST = "<DB_HOST>"
-    DB_PORT = "<DB_PORT>"
-    DB_DATABASE = "<DB_DATABASE>"
+    MYSQL_USER = "<DB_USER>"
+    MYSQL_PASSWORD = "<DB_PASSWORD>"
+    MYSQL_HOST = "<DB_HOST>"
+    MYSQL_PORT = "<DB_PORT>"
+    MYSQL_DATABASE = "<DB_DATABASE>"
     ```
 ## Despliegue en desarrollo.
 ### Como lanzar la aplicación.
 * Posicionarse en el directorio donde se aloje el archivo `main.py` y lanzar el siguiente comando en la terminal.
 ### Inicialización del servicor con uvicorn.
 ```python
-    * uvicorn main:app --reload
+uvicorn main:app --reload
+```
+### Inicializar el servicio con docker.
+#### Creación de imagen.
+```docker
+docker build -t "mi-image" .
+```
+#### Lanzamiendo de imagen.
+* Windows:
+```docker
+docker run -it -p "port":"port" -v %cd%:/app "mi-image"
+```
+* Unix:
+```docker
+docker run -it -p "port":"port" -v $PWD:/app "mi-image"
 ```
 
 ## Endpoints

@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy import Column, Table, func, exists, Boolean, ForeignKey, String, DECIMAL, DateTime, Time
 from sqlalchemy.orm import DeclarativeBase, Session, Mapped, relationship, mapped_column
 
-from api.schemas.schemas import Search
+from ..schemas.schemas import Search
 
 class Base(DeclarativeBase):
     pass

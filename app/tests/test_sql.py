@@ -1,12 +1,11 @@
 from datetime import datetime, timedelta
 from faker import Faker
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session, sessionmaker, declarative_base
 from sqlalchemy.pool import StaticPool
 
-
-from api.sql.database import SQLALCHEMY_DATABASE_URL
-from api.models.models import Account, Lodging, Reservation
+from ..api.sql.database import SQLALCHEMY_DATABASE_URL
+from ..api.models.models import Account, Lodging, Reservation
 
 
 fake = Faker()

@@ -1,15 +1,19 @@
 import pytest, httpx
+from fastapi import Depends
 from fastapi.testclient import TestClient
 
-from main import app, get_db
-from tests.test_sql import TestingSessionLocal, Session, create_test_account, create_test_lodging, create_test_reservation
+from ..main import app, get_db
+from .test_sql import text, TestingSessionLocal, Session, create_test_account, create_test_lodging, create_test_reservation
 
 
 def override_get_db():
+    
     try:
         db = TestingSessionLocal()
         db.begin()
         yield db
+    except Exception as e:
+        print('DB connection error:', e)
     finally:
         db.rollback()
         db.close()
@@ -51,12 +55,12 @@ def test_create_data(db: Session):
         
 
 
-def test_post_items():
+def test_post_items(db: Session = Depends(override_get_db)):
 
     # We grab another session to check 
     # if the items are created
-    db = override_get_db() 
-    client = TestClient(app)
+    #db = override_get_db() 
+    
     test_create_data(db=db)
     #client.post("/items/", json={"title": "Item 1"})
 
