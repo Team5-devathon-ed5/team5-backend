@@ -1,84 +1,85 @@
 import pytest, httpx
-from fastapi import Depends
+from faker import Faker
+from unittest.mock import patch
+
+from sqlalchemy.orm import Session
 from fastapi.testclient import TestClient
 
 from ..main import app, get_db
-from .test_sql import text, TestingSessionLocal, Session, create_test_account, create_test_lodging, create_test_reservation
+from ..api.schemas.schemas import Search
+from ..api.models.models import Lodging
+from .test_sql import TestingSessionLocal
+
+fake = Faker()
 
 
 def override_get_db():
-    
     try:
         db = TestingSessionLocal()
         db.begin()
         yield db
-    except Exception as e:
-        print('DB connection error:', e)
     finally:
         db.rollback()
         db.close()
 
-app.dependency_overrides[get_db] = override_get_db
+
 client = TestClient(app)
-
-def test_create_data(db: Session):
-    """
-    Method for generating test data and properly verifying the service's functionality.
-    Generate:
-        2 Account(1 active and 1 disable)
-        6 Lodging(3 Available and 3 with Reservation)
-        3 reservation(2 complete and 1 cancelled)
-    """
-    data_test = {'account':[], 'lodging':[], 'reservation': []}
-    id_account, account_active = create_test_account(db=db, account_active=False)
-    data_test['account'].append({'id_account': id_account, 'account_active': account_active})
-    id_account, account_active = create_test_account(db=db, account_active=True)
-    data_test['account'].append({'id_account': id_account, 'account_active': account_active})
-    num_lodging = 0
-    print('data1',data_test)
-    while num_lodging < 6:
-        num_lodging += 1
-        print(num_lodging)
-        if num_lodging == 1 or num_lodging == 2 or num_lodging == 3:
-            id_lodging, owner_id, longitude, latitude = create_test_lodging(db=db, owner_id=id_account)
-            data_test['lodging'].append({'id_lodging':id_lodging, 'owner_id':owner_id, 'longitude':longitude, 'latitude':latitude })
-        elif num_lodging == 4 or num_lodging == 5:
-            id_lodging, owner_id, longitude, latitude = create_test_lodging(db=db, owner_id=id_account)
-            data_test['lodging'].append({'id_lodging':id_lodging, 'owner_id':owner_id, 'longitude':longitude, 'latitude':latitude })
-        elif num_lodging == 6:
-            id_lodging, owner_id, longitude, latitude = create_test_lodging(db=db, owner_id=id_account)
-            data_test['lodging'].append({'id_lodging':id_lodging, 'owner_id':owner_id, 'longitude':longitude, 'latitude':latitude })
-        else:
-            id_lodging, owner_id, longitude, latitude = create_test_lodging(db=db, owner_id=id_account)
-            data_test['lodging'].append({'id_lodging':id_lodging, 'owner_id':owner_id, 'longitude':longitude, 'latitude':latitude })
-    print('data2',data_test)
-        
+app.dependency_overrides[get_db] = override_get_db
 
 
-def test_post_items(db: Session = Depends(override_get_db)):
 
-    # We grab another session to check 
-    # if the items are created
-    #db = override_get_db() 
+
+#Test for validate get_lodging method in app.
+def test_get_lodging():
+    #Case 1 (Correct Test): Successful request
+    id = 1
+    response = client.get(f"/lodging/{id}")
+    assert response.status_code == 200,  f'Case 1: Incorrect. ERROR: \n {response.json()}'
+    assert response.json()['id'] == id,  f'Case 1: Incorrect. ERROR: \n {response.json()}'
+
+
+    #Case 2 (Incorrect Test): Object not found
+    id = 999
+    response = client.get(f"/lodging/{id}")
+    assert response.status_code == 404,  f'Case 2: Incorrect. ERROR: \n {response.json()}'
+
+
+    #Case 3 (Incorrect Test): Bad paramenter in url.
+    response = client.get("/lodging/a")
+    assert response.status_code == 422,  f'Case 3: Incorrect. ERROR: \n {response.json()}'
+
+
+
+
+#Test for validate search_lodging_available method in app.
+def test_search_lodgings_available():
+    urn = "/searchlodging/"
+    invalid_lodging = [5, 6, 13, 18] #Invalid lodgings because owner is not active.
     
-    test_create_data(db=db)
-    #client.post("/items/", json={"title": "Item 1"})
 
-    #client.post("/items/", json={"title": "Item 2"})
+    #Case 1 (Correct Test): Successful request
+    search_data = {
+        "location": {"longitude": 10.0, "latitude": 20.0},
+        "ratio": 100,
+        "num_travellers": 2,
+        "check_in": "2223-08-15",
+        "check_out": "2223-08-15"
+    }
+    response = client.post(urn, json=search_data)
+    assert response.status_code == 200,  f'Case 1: Incorrect. ERROR: \n {response.json()}'
+    assert len(response.json()) > 1,  f'Case 1: Incorrect. ERROR: \n {response.json()}'
+    assert not any(register['id'] in invalid_lodging for register in response.json()),  f'Case 2: Incorrect. ERROR: \n {response.json()}'
+    assert (register['guest_capacity'] < search_data['num_travellers'] for register in response.json()),  f'Case 2: Incorrect. ERROR: \n {response.json()}'
 
-    #items = crud.get_items(db)
-    #assert len(items) == 2
 
-
-    #data = {
-    #    "location":{
-    #        "longitude":12.05,
-    #        "latitude":51.20
-    #    },
-    #    "check_in" : "2024-02-21",
-    #    "check_out" : "2024-02-23",
-    #    "num_travellers": 5,
-    #    "ratio" : 100
-    #}
-
-test_post_items()
+    #Case 2 (Incorrect Test): Lodgings available not found
+    search_data = {
+        "location": {"longitude": 10.0, "latitude": 20.0},
+        "ratio": 1,
+        "num_travellers": 1,
+        "check_in": "2223-08-15",
+        "check_out": "2223-08-15"
+    }
+    response = client.post(urn, json=search_data)
+    assert response.status_code == 404,  f'Case 2: Incorrect. ERROR: \n {response.json()}'
+    assert 'detail' in response.json().keys() ,  f'Case 2: Incorrect. ERROR: \n {response.json()}'

@@ -10,7 +10,7 @@ fake = Faker()
 client = TestClient(app)
 
 
-# Test end to end for validate Search and Location model
+#Test end to end for validate Search and Location model
 def test_validate_search_model():
     urn = "/searchlodging/"
     check_in_today = fake.date_this_year(before_today=False, after_today=False)
@@ -154,6 +154,3 @@ def test_validate_search_model():
     }
     response = client.post(urn, json=data)
     assert response.status_code == 422, f'Case Data 3: Incorrect. ERROR: \n {response.json()}'
-
-
-test_validate_search_model()

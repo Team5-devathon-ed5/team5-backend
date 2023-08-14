@@ -79,13 +79,14 @@ class Lodging(Base):
     check_in_hour: Mapped[time] = mapped_column(Time)
     check_out_hour: Mapped[time] = mapped_column(Time)
     owner_id: Mapped[int] = mapped_column(ForeignKey("account.id"))
-    certification: Mapped[List[Certification]] = relationship(secondary=certification_group)
-    extra: Mapped[List[Extra]] = relationship(secondary=extra_group)
+    
 
     #Foreign Key:
+    certification: Mapped[List[Certification]] = relationship(secondary=certification_group)
+    extra: Mapped[List[Extra]] = relationship(secondary=extra_group)
     reservation = relationship("Reservation", back_populates="lodging")
     account = relationship("Account", back_populates="lodging")
-    media = relationship("LodgingMedia", back_populates="lodging") #TODO media es list
+    media = relationship("LodgingMedia", back_populates="lodging")
 
 
     def get_list_lodging_available(search: Search, db: Session, skip: int = 0, limit: int = 100):
@@ -130,6 +131,7 @@ class Reservation(Base):
     check_out: Mapped[datetime] = mapped_column(DateTime)
     has_canceled: Mapped[bool] = mapped_column(Boolean)
     
+    #Foreign Key:
     lodging = relationship("Lodging", back_populates="reservation")
 
 

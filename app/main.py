@@ -1,14 +1,23 @@
 from typing import List
+from dotenv import dotenv_values
 
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from api.models.models import Lodging
-from api.schemas.schemas import Search, LodgingBase
-from api.sql.database import SessionLocal
+env = dotenv_values(".env")  
+if env.get('TEST') == "True":
+    from .api.models.models import Lodging
+    from .api.schemas.schemas import Search, LodgingBase
+    from .api.sql.database import SessionLocal
+else:
+    from api.models.models import Lodging
+    from api.schemas.schemas import Search, LodgingBase
+    from api.sql.database import SessionLocal
+
 
 app = FastAPI()
+router = APIRouter()
 
 # CORS
 app.add_middleware(
@@ -18,7 +27,7 @@ app.add_middleware(
     allow_headers = ['*']
 )
 
-# Dependency
+# Dependency DB
 def get_db():
     db = SessionLocal()
     try:
@@ -27,7 +36,7 @@ def get_db():
         db.close()
 
 
-@app.post("/searchlodging/",  response_model=List[LodgingBase])
+@router.post("/searchlodging/",  response_model=List[LodgingBase], tags=["searchlodging"])
 def search_lodgings_available(search : Search, db: Session = Depends(get_db)):
     """
     Method to query all available lodgings based on the parameters set in Search.
@@ -46,7 +55,7 @@ def search_lodgings_available(search : Search, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=f"Bad Reguest :{str(e)}", headers={'content-type':'application/json'})
 
 
-@app.get("/lodging/{id}", response_model=LodgingBase)
+@router.get("/lodging/{id}", response_model=LodgingBase, tags=["lodging"])
 def get_lodging(id: int, db: Session = Depends(get_db)):
     """
     Method to get information of Lodging from id.
@@ -64,4 +73,6 @@ def get_lodging(id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=e.status_code, detail=e.detail, headers={'content-type':'application/json'})
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Bad Reguest :{str(e)}", headers={'content-type':'application/json'})
-    
+
+
+app.include_router(router)
