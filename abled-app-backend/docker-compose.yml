@@ -2,14 +2,27 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:8.0
+    image: mysql:8.0.34
     command: --default-authentication-plugin=caching_sha2_password
     container_name: mysqldb
-
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
+
     volumes:
-      - ./db/sql/project_abled.sql:/docker-entrypoint-initdb.d/project_abled.sql
+      - ./db/sql/01_users.sql:/docker-entrypoint-initdb.d/01_users.sql
+      - ./db/sql/02_table-lodging.sql:/docker-entrypoint-initdb.d/02_table-lodging.sql
+      - ./db/sql/03_table-media.sql:/docker-entrypoint-initdb.d/03_table-media.sql
+      - ./db/sql/04_table-certification.sql:/docker-entrypoint-initdb.d/04_table-certification.sql
+      - ./db/sql/05_table-certification_group.sql:/docker-entrypoint-initdb.d/05_table-certification_group.sql
+      - ./db/sql/06_table-extra.sql:/docker-entrypoint-initdb.d/06_table-extra.sql
+      - ./db/sql/07_table-extra_group.sql:/docker-entrypoint-initdb.d/07_table-extra_group.sql
+      - ./db/sql/08_table-reservation.sql:/docker-entrypoint-initdb.d/08_table-reservation.sql
+      - ./db/sql/09_table-opinion.sql:/docker-entrypoint-initdb.d/09_table-opinion.sql
+      - ./db/sql/10_alter-tables.sql:/docker-entrypoint-initdb.d/10_alter-tables.sql
+      - ./db/sql/11_table-role.sql:/docker-entrypoint-initdb.d/11_table-role.sql
+      - ./db/sql/12_table-role_group.sql:/docker-entrypoint-initdb.d/12_table-role_group.sql
+      - ./db/sql/13_alter-tables-role-rgroup.sql:/docker-entrypoint-initdb.d/13_alter-tables-role-rgroup.sql
+      - ./db/sql/14_alter-table-role-add.sql:/docker-entrypoint-initdb.d/14_alter-table-role-add.sql
     ports:
-      - "3306:3306"
+      - "3307:3306"
