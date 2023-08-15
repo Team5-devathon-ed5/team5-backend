@@ -35,13 +35,6 @@ public class UserController {
         return ResponseEntity.ok(userToShow);
     }
 
-    @GetMapping("/mail")
-    @Operation(summary = "return the specific user with an email introduced as a param, from our list.")
-    public ResponseEntity<Users> showUserByEmail(@RequestParam String email){
-        var userToShow = userService.getByEmail(email);
-        return ResponseEntity.ok(userToShow);
-    }
-
     @DeleteMapping("/{id}")
     @Operation(summary = "delete the account with the specified id from our list.")
     public ResponseEntity deleteUserById(@PathVariable Integer id){
@@ -49,25 +42,11 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/mail")
-    @Operation(summary = "delete the user with an email introduced as a param, from our list.")
-    public ResponseEntity deleteUserByEmail(@RequestParam String email){
-        userService.deleteByEmail(email);
-        return ResponseEntity.noContent().build();
-    }
-
-    //status 200?
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @Operation(summary = "update the user with an specific id with the values introduced.")
     public ResponseEntity<Users> updateUserById(@PathVariable Integer id, @Valid @RequestBody Users user){
         var accountToUpdate = userService.updateUserById(id, user);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/mail")
-    @Operation(summary = "update the user with an specific email (introduced as a param) with the new values introduced.")
-    public ResponseEntity<Users> updateUserByEmail(@RequestParam String email, @Valid @RequestBody Users user){
-        var userToUpdate = userService.updateUserByEmail(email, user);
-        return ResponseEntity.noContent().build();
-    }
 }
