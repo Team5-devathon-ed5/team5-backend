@@ -1,41 +1,40 @@
-from pydantic import BaseModel, confloat, field_validator, FieldValidationInfo
-from datetime import date, datetime, time
+from pydantic import BaseModel, confloat, field_validator, FieldValidationInfo, Extra
+from datetime import date, time
 from typing import List
 
 
-
 class Location(BaseModel):
-    latitude: confloat(ge=-90.00, le=90.00)
     longitude: confloat(ge=-180.00, le=180.00)
+    latitude: confloat(ge=-90.00, le=90.00)
 
 
 
 
 class Search(BaseModel):
     location: Location
-    check_in: date
-    check_out: date
-    num_travellers: int
+    checkIn: date
+    checkOut: date
+    numTravellers: int
     ratio: int
 
 
-    @field_validator("check_in")
+    @field_validator("checkIn")
     def validate_check_in(cls, value):
         if value < date.today():
-            raise ValueError("Check-in date cannot be before today.")
+            raise ValueError("'checkIn' date cannot be before today.")
         return value
 
 
-    @field_validator("check_out")
+    @field_validator("checkOut")
     def validate_check_out(cls, value, info: FieldValidationInfo):     
-        if not 'check_in' in info.data.keys():
-            raise ValueError("Value Check-in is obligatory.")
-        if value < info.data.get('check_in'):
-            raise ValueError("Check-out date cannot be before check-in date.")
+        if not 'checkIn' in info.data.keys():
+            raise ValueError("Value 'checkIn' is obligatory.")
+        if value < info.data.get('checkIn'):
+            raise ValueError("'checkOut' date cannot be before check-in date.")
         return value
 
 
-    @field_validator("num_travellers")
+    @field_validator("numTravellers")
     def validate_num_travellers(cls, value):
         if value < 1:
             raise ValueError("Number of travellers cannot be less than 1.")
@@ -51,12 +50,12 @@ class Search(BaseModel):
 
 
 
-class Account(BaseModel):
+class UserBase(BaseModel):
     id: int
     name: str
-    last_name: str
-    image_url: str
     detail: str
+    imageUrl: str
+    userActive: bool
 
 
     class ConfigDict:
@@ -67,52 +66,64 @@ class Account(BaseModel):
 
 class LodgingMediaBase(BaseModel):
     id: int
-    file_url: str
-    file_name: str
-    file_mime_type: str
+    fileUrl: str
+    fileName: str
+    fileMimeType: str
 
 
 
 
 class CertificationBase(BaseModel):
     id: int
-    file_url: str
-    file_name: str
-    file_mime_type: str
+    fileUrl: str
+    fileName: str
+    fileMimeType: str
+    description: str
 
 
 
 
 class ExtraBase(BaseModel):
-    has_wheelchair_access: bool
-    has_kitchen: bool
-    has_internet: bool
-    has_tv: bool
-    has_laundry: bool
-    has_wc_adjust: bool
-    has_shower_adjust: bool
+    id: int
+    hasWheelchairAccess: bool
+    hasKitchen: bool
+    hasInternet: bool
+    hasTv: bool
+    hasLaundry: bool
+    hasWcAdjust: bool
+    hasShowerAdjust: bool
+    hasParking: bool
+    hasElevator: bool
+
+
+    class ConfigDict:
+        from_attributes = True
 
 
 
 
 class LodgingBase(BaseModel):
     id: int
-    guest_capacity: int
-    price_per_night: float
-    detail: str
-    latitude: confloat(ge=-90.00, le=90.00)
-    longitude: confloat(ge=-180.00, le=180.00)
-    created_at: datetime
-    updated_at: datetime
+    guestCapacity: int
+    priceNight: float
+    description: str
+    location: Location 
     reputation: float
-    check_in_hour: time
-    check_out_hour: time
-    owner_id: int
-    account: Account
+    checkInHour: time
+    checkOutHour: time
     extra: List[ExtraBase] = []
     media: List[LodgingMediaBase] = []
     certification: List[CertificationBase] = []
     
+
+    class ConfigDict:
+        from_attributes = True
+
+
+
+
+class LodgingCompleteBase(LodgingBase):
+    user: UserBase
 
     class ConfigDict:
         from_attributes = True

@@ -8,11 +8,11 @@ from sqlalchemy.orm import Session
 env = dotenv_values(".env")  
 if env.get('TEST') == "True":
     from .api.models.models import Lodging
-    from .api.schemas.schemas import Search, LodgingBase
+    from .api.schemas.schemas import Search, LodgingBase, LodgingCompleteBase
     from .api.sql.database import SessionLocal
 else:
     from api.models.models import Lodging
-    from api.schemas.schemas import Search, LodgingBase
+    from api.schemas.schemas import Search, LodgingBase, LodgingCompleteBase
     from api.sql.database import SessionLocal
 
 
@@ -55,7 +55,7 @@ def search_lodgings_available(search : Search, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=f"Bad Reguest :{str(e)}", headers={'content-type':'application/json'})
 
 
-@router.get("/lodging/{id}", response_model=LodgingBase, tags=["lodging"])
+@router.get("/lodging/{id}", response_model=LodgingCompleteBase, tags=["lodging"])
 def get_lodging(id: int, db: Session = Depends(get_db)):
     """
     Method to get information of Lodging from id.
