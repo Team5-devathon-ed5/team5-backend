@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
 
     Users findByEmail (String email);
     Boolean existsByEmail (String email);
+    Boolean existsByRememberToken (String rememberToken);
+    Users findByRememberToken(String rememberToken);
 }

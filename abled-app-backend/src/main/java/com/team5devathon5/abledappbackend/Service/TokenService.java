@@ -18,6 +18,38 @@ public class TokenService {
 
     @Value("${able.security.secret}")
     private String ableSecret;
+
+    public String generateResetPassword(Users userReset){
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(ableSecret);
+            return JWT.create()
+                    .withSubject(userReset.getEmail())
+                    .withExpiresAt(expirationReset())
+                    .sign(algorithm);
+        } catch (JWTCreationException exception){
+            throw new RuntimeException();
+        }
+    }
+    public String getSubjectReset(String tokenReset) {
+
+        if(tokenReset==null){
+            throw new RuntimeException();
+        }
+
+        DecodedJWT verifier = null;
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(ableSecret);
+            verifier = JWT.require(algorithm)
+                    .build()
+                    .verify(tokenReset);
+        } catch (JWTVerificationException exception) {
+           throw new RuntimeException("Verification Failed",exception);
+        }
+        if(verifier.getSubject()==null){
+            throw new RuntimeException("Verifier invalid");
+        }
+        return verifier.getSubject();
+    }
     public String generateToken(Users user){
 
         try {
@@ -56,5 +88,8 @@ public class TokenService {
     }
     private Instant tokenExpiration(){
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-05:00"));
+    }
+    private Instant expirationReset(){
+        return LocalDateTime.now().plusHours(24).toInstant(ZoneOffset.of("-05:00"));
     }
 }

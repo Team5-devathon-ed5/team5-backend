@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -41,9 +42,25 @@ public class HandlerExceptions {
         ResponseEntity<ApiResponse> response = null;
 
         if (errorMessage.contains("User not found")) {
-            response =new ResponseEntity<>(new ApiResponse("User not found, please check your email or register at Able.com/register "), HttpStatus.NOT_FOUND);
+            response = new ResponseEntity<>(new ApiResponse("User not found, please check your email or register at Able.com/register "), HttpStatus.NOT_FOUND);
         } else if (errorMessage.contains("validOpt expired")) {
-            response =new ResponseEntity<>(new ApiResponse("Otp wrong or expired"), HttpStatus.BAD_REQUEST);
+            response = new ResponseEntity<>(new ApiResponse("Otp wrong or expired"), HttpStatus.BAD_REQUEST);
+        } else if (errorMessage.contains("Verification Failed")) {
+            response = new ResponseEntity<>(new ApiResponse("Token invalid or expired"), HttpStatus.NOT_FOUND);
+        } else if (errorMessage.contains("Email blocked")) {
+            response = new ResponseEntity<>(new ApiResponse("Email blocked due to excessive requests"), HttpStatus.FORBIDDEN);
+        } else if (errorMessage.contains("Alert email")) {
+        response = new ResponseEntity<>(new ApiResponse("Alert the email will be blocked in the next request"), HttpStatus.OK);
+        }
+        return response;
+    }
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiResponse>badCredentials(BadCredentialsException bad){
+        String errorMessage = bad.getMessage();
+        ResponseEntity<ApiResponse> response = null;
+
+        if (errorMessage.contains("Password Incorrect")){
+            response = new ResponseEntity<>(new ApiResponse("Password Incorrect, please check your password"),HttpStatus.BAD_REQUEST);
         }
         return response;
     }

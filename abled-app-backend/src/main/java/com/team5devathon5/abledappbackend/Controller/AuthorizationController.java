@@ -11,8 +11,11 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,21 +31,25 @@ public class AuthorizationController {
 
     @PostMapping("/login")
     public ResponseEntity <DataJWTtoken> authenticationUser(@RequestBody @Valid DataAuthenticationUser dataAuthenticationUser){
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        passwordEncoder.encode(dataAuthenticationUser.password());
 
         var userFound = userRepository.findByEmail(dataAuthenticationUser.email());
-        System.out.println(userFound);
+
         if (userFound==null) {
             throw new RuntimeException("User not found");
+        } else if (!passwordEncoder.matches(dataAuthenticationUser.password(),userFound.getPassword())) {
+            throw new BadCredentialsException("Password Incorrect");
         }
 
         Authentication authToken = new UsernamePasswordAuthenticationToken(
                 dataAuthenticationUser.email(),dataAuthenticationUser.password());
-         System.out.println(authToken);
-       var userAuthenticate = authenticationManager.authenticate(authToken);
 
-       var JWTtoken = tokenService.generateToken((Users) userAuthenticate.getPrincipal());
+        var userAuthenticate = authenticationManager.authenticate(authToken);
 
-             return ResponseEntity.ok(new DataJWTtoken(JWTtoken));
+        var JWTtoken = tokenService.generateToken((Users) userAuthenticate.getPrincipal());
+
+        return ResponseEntity.ok(new DataJWTtoken(JWTtoken));
     }
 
     @PostMapping("/register")

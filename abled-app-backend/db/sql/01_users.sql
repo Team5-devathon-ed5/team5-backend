@@ -14,7 +14,7 @@ CREATE TABLE users (
                        detail VARCHAR(2500) NULL,
                        address VARCHAR(255) NULL,
                        country VARCHAR(50)NULL,
-                       remember_token VARCHAR (100),
+                       remember_token VARCHAR (255),
                        created_at TIMESTAMP DEFAULT NULL,
                        updated_at TIMESTAMP DEFAULT NULL
 );
