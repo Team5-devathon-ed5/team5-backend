@@ -111,6 +111,7 @@ class LodgingBase(BaseModel):
     reputation: float
     checkInHour: time
     checkOutHour: time
+    category: str
     extra: List[ExtraBase] = []
     media: List[LodgingMediaBase] = []
     certification: List[CertificationBase] = []
@@ -124,6 +125,7 @@ class LodgingBase(BaseModel):
 
 class LodgingCompleteBase(LodgingBase):
     user: UserBase
+
 
     class ConfigDict:
         from_attributes = True

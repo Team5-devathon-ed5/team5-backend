@@ -3,6 +3,7 @@ from datetime import datetime, time
 from typing import List
 from sqlalchemy import Column, Table, func, exists, Boolean, ForeignKey, String, DECIMAL, DateTime, Time, Integer
 from sqlalchemy.orm import DeclarativeBase, Session, Mapped, relationship, mapped_column, composite
+from sqlalchemy.dialects.mysql import ENUM
 
 from ..schemas.schemas import Search
 
@@ -88,6 +89,7 @@ class Lodging(Base):
     reputation: Mapped[float] = mapped_column("reputation", DECIMAL(2, 1))
     checkInHour: Mapped[time] = mapped_column("checkInHour", Time)
     checkOutHour: Mapped[time] = mapped_column("checkOutHour", Time)
+    category: Mapped[str] = mapped_column("category", ENUM('cottage', 'best-review', 'hotel', 'lodging'))
     ownerId: Mapped[int] = mapped_column("ownerId", ForeignKey("users.id"))
     
     #Foreign Key:
