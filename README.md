@@ -20,12 +20,15 @@ python3 -m pip install -r requirements.txt
 * Create a new file named `.env`.
 * Add the next structure to the file.
     ```
-    MYSQL_USER = "<DB_USER>"
-    MYSQL_PASSWORD = "<DB_PASSWORD>"
-    MYSQL_HOST = "<DB_HOST>"
-    MYSQL_PORT = "<DB_PORT>"
-    MYSQL_DATABASE = "<DB_DATABASE>"
+    MYSQL_USER=<DB_USER>
+    MYSQL_PASSWORD=<DB_PASSWORD>
+    MYSQL_HOST=<DB_HOST>
+    MYSQL_PORT=<DB_PORT>
+    MYSQL_DATABASE=<DB_DATABASE>
+    TEST=False
+    MYSQL_DATABASE_TEST=<DB_DATABASE_TEST>
     ```
+* Set test to False
 ## Deployment for development.
 ### How to Run the Application.
 * Navigate to the directory that has the file `main.py` and launch next command in terminal.

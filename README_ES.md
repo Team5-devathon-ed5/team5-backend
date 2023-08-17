@@ -21,12 +21,15 @@ python3 -m pip install -r requirements.txt
 * Crear un nuevo fichero llamado `.env`
 * Añadir dentro del fihcero el siguiente contenido.
     ```
-    MYSQL_USER = "<DB_USER>"
-    MYSQL_PASSWORD = "<DB_PASSWORD>"
-    MYSQL_HOST = "<DB_HOST>"
-    MYSQL_PORT = "<DB_PORT>"
-    MYSQL_DATABASE = "<DB_DATABASE>"
+    MYSQL_USER=<DB_USER>
+    MYSQL_PASSWORD=<DB_PASSWORD>
+    MYSQL_HOST=<DB_HOST>
+    MYSQL_PORT=<DB_PORT>
+    MYSQL_DATABASE=<DB_DATABASE>
+    TEST=False
+    MYSQL_DATABASE_TEST=<DB_DATABASE_TEST>
     ```
+* Aplica False a TEST
 ## Despliegue en desarrollo.
 ### Como lanzar la aplicación.
 * Posicionarse en el directorio donde se aloje el archivo `main.py` y lanzar el siguiente comando en la terminal.

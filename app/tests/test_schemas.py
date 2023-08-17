@@ -20,9 +20,9 @@ def test_validate_search_model():
     data = {
         "location": {"latitude":fake.pyfloat(left_digits=2, right_digits=2, positive=False, min_value=-90, max_value=90), 
                      "longitude":fake.pyfloat(left_digits=3, right_digits=2, positive=False, min_value=-180, max_value=180)},
-        "check_in": check_in_today.isoformat(),
-        "check_out": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
-        "num_travellers": fake.pyint(min_value=1, max_value=3),
+        "checkIn": check_in_today.isoformat(),
+        "checkOut": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
+        "numTravellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
     response = client.post(urn, json=data)
@@ -33,9 +33,9 @@ def test_validate_search_model():
     data = {
         "location": {"latitude":fake.pyfloat(left_digits=2, right_digits=2, positive=False, min_value=-90, max_value=90), 
                      "longitude":fake.pyfloat(left_digits=3, right_digits=2, positive=False, min_value=-180, max_value=180)},
-        "check_in": check_in_today.isoformat(),
-        "check_out": fake.past_date(start_date=(check_in_today+timedelta(days=-5))).isoformat(),
-        "num_travellers": fake.pyint(min_value=1, max_value=3),
+        "checkIn": check_in_today.isoformat(),
+        "checkOut": fake.past_date(start_date=(check_in_today+timedelta(days=-5))).isoformat(),
+        "numTravellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
     response = client.post(urn, json=data)
@@ -47,9 +47,9 @@ def test_validate_search_model():
     data = {
         "location": {"latitude":fake.pyfloat(left_digits=2, right_digits=2, positive=False, min_value=-90, max_value=90), 
                      "longitude":fake.pyfloat(left_digits=3, right_digits=2, positive=False, min_value=-180, max_value=180)},
-        "check_in": check_in_before_today.isoformat(),
-        "check_out": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
-        "num_travellers": fake.pyint(min_value=1, max_value=3),
+        "checkIn": check_in_before_today.isoformat(),
+        "checkOut": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
+        "numTravellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
     response = client.post(urn, json=data)
@@ -60,9 +60,9 @@ def test_validate_search_model():
     data = {
         "location": {"latitude":fake.pyfloat(left_digits=2, right_digits=2, positive=False, min_value=-90, max_value=90), 
                      "longitude":fake.pyfloat(left_digits=3, right_digits=2, positive=False, min_value=-180, max_value=180)},
-        "check_in": check_in_today.isoformat(),
-        "check_out": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
-        "num_travellers": 0,
+        "checkIn": check_in_today.isoformat(),
+        "checkOut": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
+        "numTravellers": 0,
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
     response = client.post(urn, json=data)
@@ -73,9 +73,9 @@ def test_validate_search_model():
     data = {
         "location": {"latitude":fake.pyfloat(left_digits=2, right_digits=2, positive=False, min_value=-90, max_value=90), 
                      "longitude":fake.pyfloat(left_digits=3, right_digits=2, positive=False, min_value=-180, max_value=180)},
-        "check_in": check_in_today.isoformat(),
-        "check_out": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
-        "num_travellers": fake.pyint(min_value=1, max_value=3),
+        "checkIn": check_in_today.isoformat(),
+        "checkOut": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
+        "numTravellers": fake.pyint(min_value=1, max_value=3),
         "ratio": 0
     }
     response = client.post(urn, json=data)
@@ -86,9 +86,9 @@ def test_validate_search_model():
     data = {
         "location": {"latitude":fake.pyfloat(left_digits=2, right_digits=2, positive=True, min_value=91, max_value=92), 
                      "longitude":fake.pyfloat(left_digits=3, right_digits=2, positive=False, min_value=-180, max_value=180)},
-        "check_in": check_in_today.isoformat(),
-        "check_out": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
-        "num_travellers": fake.pyint(min_value=1, max_value=3),
+        "checkIn": check_in_today.isoformat(),
+        "checkOut": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
+        "numTravellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
     response = client.post(urn, json=data)
@@ -99,9 +99,9 @@ def test_validate_search_model():
     data = {
         "location": {"latitude":fake.pyfloat(left_digits=2, right_digits=2, positive=False, min_value=-90, max_value=90), 
                      "longitude":fake.pyfloat(left_digits=3, right_digits=2, positive=False, min_value=-183, max_value=-181)},
-        "check_in": check_in_today.isoformat(),
-        "check_out": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
-        "num_travellers": fake.pyint(min_value=1, max_value=3),
+        "checkIn": check_in_today.isoformat(),
+        "checkOut": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
+        "numTravellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
     response = client.post(urn, json=data)
@@ -112,9 +112,9 @@ def test_validate_search_model():
     data = {
         "location": {"latitude":fake.pyfloat(left_digits=2, right_digits=2, positive=False, min_value=-90, max_value=90), 
                      "longitude":fake.name()},
-        "check_in": check_in_today.isoformat(),
-        "check_out": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
-        "num_travellers": fake.pyint(min_value=1, max_value=3),
+        "checkIn": check_in_today.isoformat(),
+        "checkOut": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
+        "numTravellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
     response = client.post(urn, json=data)
@@ -123,9 +123,9 @@ def test_validate_search_model():
 
     #Case Data 1 (Incorrect Test): Data without location field
     data = {
-        "check_in": check_in_today.isoformat(),
-        "check_out": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
-        "num_travellers": fake.pyint(min_value=1, max_value=3),
+        "checkIn": check_in_today.isoformat(),
+        "checkOut": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
+        "numTravellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
     response = client.post(urn, json=data)
@@ -136,8 +136,8 @@ def test_validate_search_model():
     data = {
         "location": {"latitude":fake.pyfloat(left_digits=2, right_digits=2, positive=False, min_value=-90, max_value=90), 
                      "longitude":fake.pyfloat(left_digits=3, right_digits=2, positive=False, min_value=-180, max_value=180)},
-        "check_out": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
-        "num_travellers": fake.pyint(min_value=1, max_value=3),
+        "checkOut": fake.date_between(start_date=(check_in_today+timedelta(days=1)), end_date=(check_in_today+timedelta(days=5))).isoformat(),
+        "numTravellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
     response = client.post(urn, json=data)
@@ -148,8 +148,8 @@ def test_validate_search_model():
     data = {
         "location": {"latitude":fake.pyfloat(left_digits=2, right_digits=2, positive=False, min_value=-90, max_value=90), 
                      "longitude":fake.pyfloat(left_digits=3, right_digits=2, positive=False, min_value=-180, max_value=180)},
-        "check_in": check_in_today.isoformat(),
-        "num_travellers": fake.pyint(min_value=1, max_value=3),
+        "checkIn": check_in_today.isoformat(),
+        "numTravellers": fake.pyint(min_value=1, max_value=3),
         "ratio": fake.pyint(min_value=1, max_value=3)
     }
     response = client.post(urn, json=data)
