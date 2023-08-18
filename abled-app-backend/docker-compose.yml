@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
 
     volumes:
-      - ./db/sql/01_users.sql:/docker-entrypoint-initdb.d/01_users.sql
+      - ./db/sql/01_table_users.sql:/docker-entrypoint-initdb.d/01_table_users.sql
       - ./db/sql/02_table-lodging.sql:/docker-entrypoint-initdb.d/02_table-lodging.sql
       - ./db/sql/03_table-media.sql:/docker-entrypoint-initdb.d/03_table-media.sql
       - ./db/sql/04_table-certification.sql:/docker-entrypoint-initdb.d/04_table-certification.sql
