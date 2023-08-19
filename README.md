@@ -8,11 +8,11 @@ Microservice for accommodations search.
 * Install required Python dependencies in `requirements.txt`.
 ##### How to install dependencies.
 * Windows:
-```python
+```bash
 python -m pip install -r requirements.txt
 ```
 * Unix/MacOS:
-```python
+```bash
 python3 -m pip install -r requirements.txt 
 ```
 ### Files.
@@ -28,27 +28,30 @@ python3 -m pip install -r requirements.txt
     TEST=False
     MYSQL_DATABASE_TEST=<DB_DATABASE_TEST>
     ```
-* Set test to False
+* Set test to False for this deploy
 ## Deployment for development.
 ### How to Run the Application.
 * Navigate to the directory that has the file `main.py` and launch next command in terminal.
 ### Launch server with uvicorn.
-```python
+```bash
 uvicorn main:app --reload
 ```
-### Launch with docker.
-#### Create image.
-```docker
-docker build -t "mi-image" .
-```
-#### Run image.
-* Windows:
-```docker
-docker run -it -p "port":"port" -v %cd%:/app "mi-image"
-```
-* Unix:
-```docker
-docker run -it -p "port":"port" -v $PWD:/app "mi-image"
+### Launch with docker-compose.
+#### Modify Template.
+It's necessary to modify the `env.template` template located in the `root` directory, leaving the `MYSQL_HOST` variable untouched.
+    ```
+    MYSQL_USER=<DB_USER>
+    MYSQL_PASSWORD=<DB_PASSWORDT>
+    MYSQL_HOST=host.docker.internal
+    MYSQL_PORT=<DB_PORT>
+    MYSQL_DATABASE=<DB_DATABASE>
+    TEST=<BOOL_TEST>
+    MYSQL_DATABASE_TEST=<DB_TEST>
+    ```
+* Set test to False for this deploy
+#### Launch service.
+```bash
+docker-compose up -d --build
 ```
 
 ## Endpoints

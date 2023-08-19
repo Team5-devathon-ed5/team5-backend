@@ -188,7 +188,5 @@ ENV/
 env.bak/
 venv.bak/
 
-# Docker
-.env.template
-
+# files
 auxiliar.txt

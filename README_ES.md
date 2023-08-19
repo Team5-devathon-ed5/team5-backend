@@ -1,7 +1,6 @@
 # team5-backend
 ## Feature/search
-
-Microservicio para la busqueda de alojamientos.
+Microservicio para la búsqueda de alojamientos.
 
 ## Requisitos de instalación.
 ### Python
@@ -9,15 +8,15 @@ Microservicio para la busqueda de alojamientos.
 * Instalar todas las dependencias de Python necesarias incluidas en `requirements.txt`
 #### Instalación de dependencias.
 * Windows:
-```python
+```bash
 python -m pip install -r requirements.txt
 ```
 * Unix/MacOS:
-```python
+```bash
 python3 -m pip install -r requirements.txt 
 ```
 ### Archivos.
-* Posicionarse en el directorio raiz `app`
+* Posicionarse en el directorio raíz `app`
 * Crear un nuevo fichero llamado `.env`
 * Añadir dentro del fihcero el siguiente contenido.
     ```
@@ -29,35 +28,39 @@ python3 -m pip install -r requirements.txt
     TEST=False
     MYSQL_DATABASE_TEST=<DB_DATABASE_TEST>
     ```
-* Aplica False a TEST
+* Aplica False a TEST si se realiza este tipo de despliegue
 ## Despliegue en desarrollo.
 ### Como lanzar la aplicación.
 * Posicionarse en el directorio donde se aloje el archivo `main.py` y lanzar el siguiente comando en la terminal.
 ### Inicialización del servicor con uvicorn.
-```python
+```bash
 uvicorn main:app --reload
 ```
-### Inicializar el servicio con docker.
-#### Creación de imagen.
-```docker
-docker build -t "mi-image" .
+### Inicializar el servicio con docker-compose.
+#### Modificar plantilla.
+Es necesario modificar la plantilla `env.template` situada en el directorio `raíz`, dejando la variable `MYSQL_HOST`, intacta.
+    ```
+    MYSQL_USER=<DB_USER>
+    MYSQL_PASSWORD=<DB_PASSWORDT>
+    MYSQL_HOST=host.docker.internal
+    MYSQL_PORT=<DB_PORT>
+    MYSQL_DATABASE=<DB_DATABASE>
+    TEST=<BOOL_TEST>
+    MYSQL_DATABASE_TEST=<DB_TEST>
+    ```
+Aplica False a TEST si se realiza este tipo de despliegue
+#### Iniciar servicio.
+```bash
+docker-compose up -d --build
 ```
-#### Lanzamiendo de imagen.
-* Windows:
-```docker
-docker run -it -p "port":"port" -v %cd%:/app "mi-image"
-```
-* Unix:
-```docker
-docker run -it -p "port":"port" -v $PWD:/app "mi-image"
-```
+
 
 ## Endpoints
 ### Lodging
-Método para obtener toda la información de Lodging por parámetro ID.
+Método para obtener toda la información de la tabla Lodging por parámetro ID.
 * GET /lodging/{id}"
 
-Método para obtener toda la información de Lodging disponibles en función de los parámetros de entrada del schema Search.
+Método para obtener toda la información de la tabla Lodging y que se encuentren disponibles en función de los parámetros de entrada del schema Search.
 * POST /searchlodging/
 
 ### Documentación
