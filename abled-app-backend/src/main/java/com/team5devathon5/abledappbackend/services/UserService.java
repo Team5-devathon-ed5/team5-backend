@@ -2,13 +2,19 @@ package com.team5devathon5.abledappbackend.services;
 
 import com.team5devathon5.abledappbackend.domain.User;
 import com.team5devathon5.abledappbackend.domain.UserRepository;
+import com.team5devathon5.abledappbackend.infraestructure.exceptions.BadRequestException;
+import com.team5devathon5.abledappbackend.infraestructure.exceptions.IdNotFoundException;
+import com.team5devathon5.abledappbackend.utilities.Tables;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -29,18 +35,22 @@ public class UserService {
     }
 
     public List<User> getAllUser(){
+
         return userRepository.findAll();
     }
 
-    public User getById(Integer id){
-        return userRepository.findById(id).orElseThrow();
+    public Optional<User> getById(Integer id) {
+
+        return userRepository.findById(id);
     }
+
 
     public User getByEmail(String email){
         return userRepository.findByEmail(email);
     }
 
     public void deleteById(Integer id){
+
         userRepository.deleteById(id);
     }
 
@@ -50,8 +60,7 @@ public class UserService {
     }
 
     public User updateUserById(Integer id, User user){
-        var userToUpdate = userRepository.findById(id).orElseThrow();
-        //introducir la condición de que los get no sean nulos
+        var userToUpdate = userRepository.findById(id).orElseThrow(() -> new IdNotFoundException());
         if (user.getName() != null) userToUpdate.setName(user.getName());
         if (user.getEmail() != null) userToUpdate.setEmail(user.getEmail());
         if (user.getUserActive() != null) userToUpdate.setUserActive(user.getUserActive());
@@ -69,6 +78,7 @@ public class UserService {
 
         var userUpdated = userRepository.save(userToUpdate);
         return userUpdated;
+
     }
 
     public User updateUserByEmail(String email, User user){
