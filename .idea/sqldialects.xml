@@ -3,7 +3,8 @@
   <component name="SqlDialectMappings">
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/10ab62bc-082c-45f1-93df-5dcf0d0682b4/console.sql" dialect="MySQL" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/10ab62bc-082c-45f1-93df-5dcf0d0682b4/console_2.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/abled-app-backend/db/sql/01_users.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/abled-app-backend/db/sql/01_table_users.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/abled-app-backend/db/sql/02_table-lodging.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/abled-app-backend/db/sql/04_table-certification.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/abled-app-backend/db/sql/06_table-extra.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/abled-app-backend/db/sql/07_table-extra_group.sql" dialect="MySQL" />
