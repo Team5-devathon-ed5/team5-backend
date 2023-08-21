@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name="users")
@@ -62,11 +63,12 @@ public class User implements UserDetails{
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "role_group",
-            joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "id")
+            name = "roleGroup",
+            joinColumns = @JoinColumn(name = "idUser", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "idRole", referencedColumnName = "id")
     )
-    private List<Role> role= new ArrayList<>();
+    //@Column(insertable=false, updatable=false)
+    private List<Role> role = new ArrayList<>();
 
     @Override
     @JsonIgnore

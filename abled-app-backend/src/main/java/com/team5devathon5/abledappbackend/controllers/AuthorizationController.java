@@ -6,7 +6,7 @@ import com.team5devathon5.abledappbackend.services.RegisterService;
 import com.team5devathon5.abledappbackend.dtos.DataAuthenticationUser;
 import com.team5devathon5.abledappbackend.dtos.DataNewUser;
 import com.team5devathon5.abledappbackend.domain.User;
-import com.team5devathon5.abledappbackend.domain.UserRepository;
+import com.team5devathon5.abledappbackend.domain.repositories.UserRepository;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
