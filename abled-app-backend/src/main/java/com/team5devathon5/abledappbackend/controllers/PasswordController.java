@@ -1,7 +1,7 @@
 package com.team5devathon5.abledappbackend.controllers;
 
 import com.team5devathon5.abledappbackend.services.OptService;
-import com.team5devathon5.abledappbackend.domain.UserRepository;
+import com.team5devathon5.abledappbackend.domain.repositories.UserRepository;
 import com.team5devathon5.abledappbackend.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;

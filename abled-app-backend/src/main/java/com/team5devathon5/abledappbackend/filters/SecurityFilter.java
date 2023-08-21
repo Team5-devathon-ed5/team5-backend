@@ -1,8 +1,8 @@
 package com.team5devathon5.abledappbackend.filters;
 
 import com.team5devathon5.abledappbackend.services.TokenService;
-import com.team5devathon5.abledappbackend.domain.RoleRepository;
-import com.team5devathon5.abledappbackend.domain.UserRepository;
+import com.team5devathon5.abledappbackend.domain.repositories.RoleRepository;
+import com.team5devathon5.abledappbackend.domain.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

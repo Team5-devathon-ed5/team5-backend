@@ -1,16 +1,13 @@
 package com.team5devathon5.abledappbackend.services;
 
 import com.team5devathon5.abledappbackend.domain.User;
-import com.team5devathon5.abledappbackend.domain.UserRepository;
-import com.team5devathon5.abledappbackend.infraestructure.exceptions.BadRequestException;
+import com.team5devathon5.abledappbackend.domain.repositories.RoleRepository;
+import com.team5devathon5.abledappbackend.domain.repositories.UserRepository;
 import com.team5devathon5.abledappbackend.infraestructure.exceptions.IdNotFoundException;
-import com.team5devathon5.abledappbackend.utilities.Tables;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,6 +20,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     public User create(User user){
         var userToCreate = user;
@@ -30,6 +28,7 @@ public class UserService {
         userToCreate.setCreatedAt(now);
         userToCreate.setUpdatedAt(now);
         userRepository.save(userToCreate);
+
 
         return userToCreate;
     }
