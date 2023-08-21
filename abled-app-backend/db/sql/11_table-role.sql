@@ -2,6 +2,6 @@ USE abled;
 
 CREATE TABLE role (
                         id integer PRIMARY KEY AUTO_INCREMENT,
-                        nameRole varchar(50),
+                        name_role varchar(50),
                         detail text
 );

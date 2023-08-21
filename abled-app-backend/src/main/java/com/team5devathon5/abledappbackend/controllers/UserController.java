@@ -29,7 +29,6 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Return a list with all users")
     public ResponseEntity<List<User>> showAllUsers(){
         var users = userService.getAllUser();

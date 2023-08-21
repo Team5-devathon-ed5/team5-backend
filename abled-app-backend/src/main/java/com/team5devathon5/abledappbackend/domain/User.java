@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-
 @Entity
 @Table(name="users")
 @AllArgsConstructor
@@ -27,14 +25,16 @@ public class User implements UserDetails{
 
     private String name;
 
+    @Column(name = "phone_code")
     @Pattern(regexp = "^\\+[1-9]\\d{0,2}",
             message = "Must be a valid international Phone code preceded by '+'.")
     private String phoneCode;
-
+    @Column(name = "phone_number")
     @Pattern(regexp = "^\\d{1,4}-\\d{1,4}-\\d{1,10}$",
             message = "Must be a valid phone number.")
     private String phoneNumber;
 
+    @Column(name = "phone_share")
     private Boolean phoneShare;
 
     @JsonIgnore
@@ -45,8 +45,10 @@ public class User implements UserDetails{
             message = "Must be a valid email.")
     private String email;
 
+    @Column(name = "image_url")
     private String imageUrl;
 
+    @Column(name = "user_active")
     private Boolean userActive;
 
     private String detail;
@@ -54,24 +56,22 @@ public class User implements UserDetails{
     private String address;
 
     private String country;
-
+    @Column(name = "forgot_password")
     private String forgotPassword;
-
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
-
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "roleGroup",
-            joinColumns = @JoinColumn(name = "idUser", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "idRole", referencedColumnName = "id")
+            name = "role_group",
+            joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "id")
     )
-    //@Column(insertable=false, updatable=false)
     private List<Role> role = new ArrayList<>();
 
     @Override
-    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<Role> roles = getRole();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -80,9 +80,7 @@ public class User implements UserDetails{
         }
         return authorities;
     }
-
     @Override
-    @JsonIgnore
     public String getUsername() {
         return email;
     }

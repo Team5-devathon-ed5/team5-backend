@@ -1,8 +1,6 @@
 package com.team5devathon5.abledappbackend.services;
 
 import com.team5devathon5.abledappbackend.domain.Role;
-import com.team5devathon5.abledappbackend.domain.RoleGroup;
-import com.team5devathon5.abledappbackend.domain.repositories.RoleGroupRepository;
 import com.team5devathon5.abledappbackend.dtos.DataNewUser;
 import com.team5devathon5.abledappbackend.domain.repositories.RoleRepository;
 import com.team5devathon5.abledappbackend.domain.User;
@@ -23,7 +21,6 @@ public class RegisterService{
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final RoleGroupRepository roleGroupRepository;
 
     public void registerUser(DataNewUser dataNewUser){
 
@@ -38,14 +35,13 @@ public class RegisterService{
         newUser.setUpdatedAt(now);
 
         Role roles = roleRepository.findRoleByNameRole("ROLE_LODGER").orElse(null);
+        System.out.println(roles);
         newUser.setRole(Collections.singletonList(roles));
 
         if (userRepository.existsByEmail(newUser.getEmail())) {
                 throw new DataIntegrityViolationException("email exist");
         }else {
             userRepository.save(newUser);
-            RoleGroup roleGroup = new RoleGroup(newUser.getId(), 2);
-            roleGroupRepository.save(roleGroup);
         }
     }
 

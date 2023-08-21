@@ -1,6 +1,6 @@
 package com.team5devathon5.abledappbackend.services;
-import com.team5devathon5.abledappbackend.domain.UserRepository;
 import com.team5devathon5.abledappbackend.domain.User;
+import com.team5devathon5.abledappbackend.domain.repositories.UserRepository;
 import com.team5devathon5.abledappbackend.infraestructure.messages.EmailData;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpEntity;

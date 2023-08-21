@@ -1,16 +1,10 @@
 package com.team5devathon5.abledappbackend.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "role")
 @AllArgsConstructor
@@ -23,11 +17,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "name_role")
     private String nameRole;
     private String detail;
-
-    @JsonIgnore
-    @ManyToMany (mappedBy = "role")
-    public List<User> users = new ArrayList<>();
-
 }
