@@ -1,4 +1,5 @@
 package com.team5devathon5.abledappbackend.controllers;
+import com.team5devathon5.abledappbackend.infraestructure.exceptions.BadRequestException;
 import com.team5devathon5.abledappbackend.infraestructure.messages.ApiResponse;
 import com.team5devathon5.abledappbackend.dtos.DataJWTtoken;
 import com.team5devathon5.abledappbackend.services.TokenService;
@@ -7,8 +8,10 @@ import com.team5devathon5.abledappbackend.dtos.DataAuthenticationUser;
 import com.team5devathon5.abledappbackend.dtos.DataNewUser;
 import com.team5devathon5.abledappbackend.domain.User;
 import com.team5devathon5.abledappbackend.domain.repositories.UserRepository;
+import com.team5devathon5.abledappbackend.utilities.Tables;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -51,13 +55,18 @@ public class AuthorizationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse> registerUser(@RequestBody @Valid DataNewUser dataNewUser){
+    public ResponseEntity<ApiResponse> registerUser (@RequestBody @Valid DataNewUser dataNewUser){
 
-        String message = "User Registration Successful!. Please Login.";
-        ApiResponse response = new ApiResponse(message);
+        if (dataNewUser.email().matches("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")){
+             String message = "User Registration Successful!. Please Login.";
+             ApiResponse response = new ApiResponse(message);
 
-        registerService.registerUser(dataNewUser);
+             registerService.registerUser(dataNewUser);
 
-        return ResponseEntity.ok().body(response);
+                return ResponseEntity.ok().body(response);
+        } else {
+            throw new BadRequestException(Tables.users.name());
+        }
+
     }
 }

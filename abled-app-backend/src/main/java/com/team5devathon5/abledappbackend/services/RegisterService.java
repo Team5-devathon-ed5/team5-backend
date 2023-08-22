@@ -34,7 +34,7 @@ public class RegisterService{
         newUser.setCreatedAt(now);
         newUser.setUpdatedAt(now);
 
-        Role roles = roleRepository.findRoleByNameRole("ROLE_LODGER").orElse(null);
+        Role roles = roleRepository.findRoleByNameRole("ROLE_LODGER").orElse(new Role("ROLE_LODGER",""));
         System.out.println(roles);
         newUser.setRole(Collections.singletonList(roles));
 

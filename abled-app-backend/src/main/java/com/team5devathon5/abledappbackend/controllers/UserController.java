@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,8 +30,17 @@ public class UserController {
     @GetMapping
     @Operation(summary = "Return a list with all users")
     public ResponseEntity<List<User>> showAllUsers(){
-        var users = userService.getAllUser();
-        return ResponseEntity.ok(users);
+        Authentication auth = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        var userRole = this.userService.getByEmail(userDetail.getUsername()).getRole().stream().findFirst().get();
+        if (userRole.getNameRole().equals("ROLE_ADMIN")){
+            var users = userService.getAllUser();
+            return ResponseEntity.ok(users);
+        }else {
+            throw new NoAuthorizedException(Tables.users.name());
+        }
     }
 
     @GetMapping("/{id}")
@@ -44,7 +52,7 @@ public class UserController {
                 .getAuthentication();
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         var userAuthn = this.userService.getByEmail(userDetail.getUsername()).getId();
-        if (id != userAuthn) throw new NoAuthorizedException(Tables.users.name());
+        if (!(id.equals(userAuthn))) throw new NoAuthorizedException(Tables.users.name());
         if (userToShow.isEmpty()) throw new IdNotFoundException();
 
         return ResponseEntity.ok(userToShow.get());
@@ -59,10 +67,10 @@ public class UserController {
                 .getAuthentication();
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         var userAuthn = this.userService.getByEmail(userDetail.getUsername()).getId();
-        if (id != userAuthn) throw new NoAuthorizedException(Tables.users.name());
+        if (!(id.equals(userAuthn))) throw new NoAuthorizedException(Tables.users.name());
         if (userToDelete.isEmpty()) throw new IdNotFoundException();
 
-        deleteUserById(id);
+        userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -75,7 +83,7 @@ public class UserController {
                 .getAuthentication();
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         var userAuthn = this.userService.getByEmail(userDetail.getUsername()).getId();
-        if (id != userAuthn) throw new NoAuthorizedException(Tables.users.name());
+        if (!(id.equals(userAuthn))) throw new NoAuthorizedException(Tables.users.name());
         if (userToUpdate.isEmpty()) throw new IdNotFoundException();
 
         userService.updateUserById(id, user);
