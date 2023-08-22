@@ -2,6 +2,7 @@ package com.team5devathon5.abledappbackend.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -40,9 +41,8 @@ public class User implements UserDetails{
     @JsonIgnore
     private String password;
 
-    @Pattern(regexp = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)" +
-            "*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$",
-            message = "Must be a valid email.")
+    @Pattern(regexp = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$",
+           message = "Must be a valid email.")
     private String email;
 
     @Column(name = "image_url")
@@ -72,6 +72,7 @@ public class User implements UserDetails{
     private List<Role> role = new ArrayList<>();
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<Role> roles = getRole();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -81,6 +82,7 @@ public class User implements UserDetails{
         return authorities;
     }
     @Override
+    @JsonIgnore
     public String getUsername() {
         return email;
     }

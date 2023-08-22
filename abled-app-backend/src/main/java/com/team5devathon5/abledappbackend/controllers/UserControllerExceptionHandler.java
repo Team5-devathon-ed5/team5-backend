@@ -1,5 +1,6 @@
 package com.team5devathon5.abledappbackend.controllers;
 
+import com.team5devathon5.abledappbackend.infraestructure.exceptions.BadRequestException;
 import com.team5devathon5.abledappbackend.infraestructure.exceptions.IdNotFoundException;
 import com.team5devathon5.abledappbackend.infraestructure.exceptions.NoAuthorizedException;
 import com.team5devathon5.abledappbackend.infraestructure.messages.ApiError;
@@ -31,6 +32,14 @@ public class UserControllerExceptionHandler extends ResponseEntityExceptionHandl
         apiError.setMessage(String.format("No authorized for this information of %s", Tables.users.name()));
         apiError.setStatus(HttpStatus.FORBIDDEN);
         return new ResponseEntity<ApiError>(apiError, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ApiError> BadRequestException (RuntimeException exception, WebRequest request) {
+        ApiError apiError = createApiError(request);
+        apiError.setMessage(String.format("Not a valid request for %s", Tables.users.name()));
+        apiError.setStatus(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ApiError>(apiError, HttpStatus.BAD_REQUEST);
     }
 
     public ApiError createApiError(WebRequest request) {
