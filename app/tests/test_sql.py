@@ -7,7 +7,7 @@ from ..api.sql.database import SQLALCHEMY_DATABASE_URL
 
 env = dotenv_values(".env")  
 
-SQLALCHEMY_DATABASE_TEST_URL = "mysql+mysqlconnector://"+env.get('MYSQL_USER')+":"+env.get('MYSQL_PASSWORD')+"@"+env.get('MYSQL_HOST')+":"+env.get('MYSQL_PORT')+env.get('MYSQL_DATABASE_TEST')
+SQLALCHEMY_DATABASE_TEST_URL = "mysql+mysqlconnector://"+env.get('MYSQL_USER')+":"+env.get('MYSQL_PASSWORD')+"@"+env.get('MYSQL_HOST')+":"+env.get('MYSQL_PORT')+"/"+env.get('MYSQL_DATABASE_TEST')
 
 #Test connection
 engine = create_engine(
