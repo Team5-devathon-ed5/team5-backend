@@ -5,6 +5,6 @@ CREATE TABLE `opinion` (
   `reservationId` integer,
   `description` text,
   `rating` decimal(2,1),
-  `created_at` timestamp DEFAULT "now()",
+  `created_at` timestamp,
   `update_at` timestamp
 );
