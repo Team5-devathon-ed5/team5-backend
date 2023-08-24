@@ -7,7 +7,7 @@ CREATE TABLE `reservation` (
   `checkOut` datetime,
   `price` decimal(8,2),
   `hasCanceled` boolean DEFAULT false,
-  `createdAt` timestamp DEFAULT "now()",
+  `createdAt` timestamp,
   `updateAt` timestamp,
   `updateBy` integer
 );
