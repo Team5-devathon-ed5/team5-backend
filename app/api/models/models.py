@@ -36,8 +36,8 @@ class User(Base):
     id: Mapped[int] = mapped_column("id", primary_key=True)
     name: Mapped[str] = mapped_column("name", String(350))
     detail: Mapped[str] = mapped_column("detail", String(5000))
-    imageUrl: Mapped[str] = mapped_column("imageUrl", String(5000))
-    userActive: Mapped[bool] = mapped_column("userActive", Boolean)
+    imageUrl: Mapped[str] = mapped_column("image_url", String(5000))
+    userActive: Mapped[bool] = mapped_column("user_active", Boolean)
 
     #Foreign Key:
     lodging = relationship("Lodging", back_populates="user")
@@ -87,9 +87,9 @@ class Lodging(Base):
     description: Mapped[str] = mapped_column("description", String(5000))
     location: Mapped[Point]  = composite(mapped_column("longitude", DECIMAL(9, 6)), mapped_column("latitude", DECIMAL(8, 6)))
     reputation: Mapped[float] = mapped_column("reputation", DECIMAL(2, 1))
-    checkInHour: Mapped[time] = mapped_column("checkInHour", Time)
-    checkOutHour: Mapped[time] = mapped_column("checkOutHour", Time)
-    category: Mapped[str] = mapped_column("category", ENUM('cottage', 'best-review', 'hotel', 'lodging'))
+    checkInHour: Mapped[time] = mapped_column("checkInHour", String(255))
+    checkOutHour: Mapped[time] = mapped_column("checkOutHour", String(255))
+    category: Mapped[str] = mapped_column("category", ENUM('cottage', 'hotel', 'lodging'))
     ownerId: Mapped[int] = mapped_column("ownerId", ForeignKey("users.id"))
     
     #Foreign Key:
