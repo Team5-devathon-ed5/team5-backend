@@ -1,13 +1,21 @@
 USE abled;
 
-  ALTER TABLE reservation ADD FOREIGN KEY (guest_id) REFERENCES users (id);
-  ALTER TABLE reservation ADD FOREIGN KEY (update_by) REFERENCES users (id);
-  ALTER TABLE media ADD FOREIGN KEY (lodging_id) REFERENCES lodging (id);
-  ALTER TABLE lodging ADD FOREIGN KEY (ownerId) REFERENCES users (id);
-  ALTER TABLE certification_group ADD FOREIGN KEY (lodging_id) REFERENCES lodging (id);
-  ALTER TABLE certification_group ADD FOREIGN KEY (certification_id) REFERENCES certification (id);
-  ALTER TABLE extra_group ADD FOREIGN KEY (lodging_id) REFERENCES lodging (id);
-  ALTER TABLE extra_group ADD FOREIGN KEY (extra_id) REFERENCES extra (id);
-  ALTER TABLE reservation ADD FOREIGN KEY (lodging_id) REFERENCES lodging(id);
-  ALTER TABLE opinion ADD FOREIGN KEY (reservation_id) REFERENCES reservation (id);
-  ALTER TABLE opinion ADD FOREIGN KEY (author_id) REFERENCES users (id);
+  ALTER TABLE `reservation` ADD FOREIGN KEY (`guestId`) REFERENCES `users` (`id`);
+
+  ALTER TABLE `reservation` ADD FOREIGN KEY (`updateBy`) REFERENCES `users` (`id`);
+
+  ALTER TABLE `media` ADD FOREIGN KEY (`lodgingId`) REFERENCES `lodging` (`id`);
+
+  ALTER TABLE `lodging` ADD FOREIGN KEY (`ownerId`) REFERENCES `users` (`id`);
+
+  ALTER TABLE `certificationGroup` ADD FOREIGN KEY (`lodgingId`) REFERENCES `lodging` (`id`);
+
+  ALTER TABLE `certificationGroup` ADD FOREIGN KEY (`certificationId`) REFERENCES `certification` (`id`);
+
+  ALTER TABLE `extra` ADD FOREIGN KEY (`lodgingId`) REFERENCES `lodging` (`id`);
+
+  ALTER TABLE `reservation` ADD FOREIGN KEY (`lodgingId`) REFERENCES `lodging` (`id`);
+
+  ALTER TABLE `opinion` ADD FOREIGN KEY (`reservationId`) REFERENCES `reservation` (`id`);
+
+  ALTER TABLE `opinion` ADD FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
