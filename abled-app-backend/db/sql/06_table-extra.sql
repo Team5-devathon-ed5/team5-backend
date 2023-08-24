@@ -1,12 +1,15 @@
 USE abled;
 
-CREATE TABLE extra (
-                         id integer PRIMARY KEY,
-                         has_wheelchair_access boolean,
-                         has_kitchen boolean,
-                         has_internet boolean,
-                         has_tv boolean,
-                         has_laundry boolean,
-                         has_wc_adjust boolean,
-                         has_shower_adjust boolean
-)
+CREATE TABLE `extra` (
+  `id` integer PRIMARY KEY,
+  `lodgingId` integer,
+  `hasWheelchairAccess` boolean DEFAULT false,
+  `hasKitchen` boolean DEFAULT false,
+  `hasInternet` boolean DEFAULT false,
+  `hasTv` boolean DEFAULT false,
+  `hasLaundry` boolean DEFAULT false,
+  `hasWcAdjust` boolean DEFAULT false,
+  `hasShowerAdjust` boolean DEFAULT false,
+  `hasParking` boolean DEFAULT false,
+  `hasElevator` boolean DEFAULT false
+);

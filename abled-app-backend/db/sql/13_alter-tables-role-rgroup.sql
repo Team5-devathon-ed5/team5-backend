@@ -1,4 +1,5 @@
 USE abled;
 
-ALTER TABLE role_group ADD FOREIGN KEY (id_user) REFERENCES users (id);
-ALTER TABLE role_group ADD FOREIGN KEY (id_role) REFERENCES role (id);
+AALTER TABLE `roleGroup` ADD FOREIGN KEY (`roleId`) REFERENCES `role` (`id`);
+
+ ALTER TABLE `roleGroup` ADD FOREIGN KEY (`userId`) REFERENCES `users` (`id`);

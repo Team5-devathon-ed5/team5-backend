@@ -16,7 +16,6 @@ services:
       - ./db/sql/04_table-certification.sql:/docker-entrypoint-initdb.d/04_table-certification.sql
       - ./db/sql/05_table-certification_group.sql:/docker-entrypoint-initdb.d/05_table-certification_group.sql
       - ./db/sql/06_table-extra.sql:/docker-entrypoint-initdb.d/06_table-extra.sql
-      - ./db/sql/07_table-extra_group.sql:/docker-entrypoint-initdb.d/07_table-extra_group.sql
       - ./db/sql/08_table-reservation.sql:/docker-entrypoint-initdb.d/08_table-reservation.sql
       - ./db/sql/09_table-opinion.sql:/docker-entrypoint-initdb.d/09_table-opinion.sql
       - ./db/sql/10_alter-tables.sql:/docker-entrypoint-initdb.d/10_alter-tables.sql

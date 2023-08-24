@@ -1,8 +1,8 @@
 USE abled;
-CREATE TABLE certification (
-                                 id integer PRIMARY KEY,
-                                 file_url varchar(255),
-                                 file_name varchar(255),
-                                 file_mime_type varchar(255),
-                                 detail text
+CREATE TABLE `certification` (
+  `id` integer PRIMARY KEY,
+  `fileUrl` varchar(255),
+  `fileName` varchar(255),
+  `fileMimeType` varchar(255),
+  `description` text
 );

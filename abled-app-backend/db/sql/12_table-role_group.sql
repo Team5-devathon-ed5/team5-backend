@@ -1,8 +1,7 @@
 USE abled;
 
-CREATE TABLE role_group(
-
-            id integer PRIMARY KEY AUTO_INCREMENT,
-            id_user integer,
-            id_role integer
+CREATE TABLE `roleGroup` (
+  `id` integer PRIMARY KEY,
+  `roleId` integer,
+  `userId` integer
 );

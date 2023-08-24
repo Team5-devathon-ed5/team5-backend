@@ -1,8 +1,8 @@
 USE abled;
-CREATE TABLE media (
-                         id integer PRIMARY KEY,
-                         lodging_id integer,
-                         file_url varchar(255),
-                         file_name varchar(255),
-                         file_mime_type varchar(255)
-)
+CREATE TABLE `media` (
+  `id` integer PRIMARY KEY,
+  `lodgingId` integer,
+  `fileUrl` varchar(255),
+  `fileName` varchar(255),
+  `fileMimeType` varchar(255)
+);
